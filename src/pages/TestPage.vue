@@ -4,13 +4,15 @@ const arrayOfLetters = ref([]);
 const letterNumber = ref(0);
 const letterError = ref(false);
 let errorCount = 0;
+const sentences = ref(5)
+
 const getText = async () => {
   try {
     const response = await fetch(
-      'https://baconipsum.com/api/?type=meat-and-filler&sentences=10' //пользовательский ввод
+      `https://baconipsum.com/api/?type=meat-and-filler&sentences=${sentences.value}` //пользовательский ввод
     );
     const json = await response.json();
-    arrayOfLetters.value.push(...json[0].replaceAll('  ', ' ')); //текст возвращается с двумя пробелами перед началом следующего предложения
+    arrayOfLetters.value = [...json[0].replaceAll('  ', ' ')]; //текст возвращается с двумя пробелами перед началом следующего предложения
     differenceAccuracy = 100 / arrayOfLetters.value.length;
   } catch (error) {
     console.error(error);
@@ -31,7 +33,7 @@ let intervalID = undefined;
 const checkPressedKey = (event) => {
   /*if (event.key.charCodeAt() >= 32 && event.key.charCodeAt() <= 126)
     console.log(event.key.charCodeAt())*/
-  if (event.key === 'Shift') return;//еще много клавиш
+  if (event.key === 'Shift') return; //еще много клавиш
   if (letterNumber.value === arrayOfLetters.value.length) return; //убрать когда сделаю переход на другую страницу при окончании, проверить возврат
   if (!startTime.value) {
     startTime.value = Date.now();
@@ -46,7 +48,7 @@ const checkPressedKey = (event) => {
   if (event.key === arrayOfLetters.value[letterNumber.value]) {
     letterNumber.value++;
     letterError.value = false;
-  } else  {
+  } else {
     if (!letterError.value) {
       accuracy.value -= differenceAccuracy;
       errorCount++;
@@ -60,23 +62,45 @@ const checkPressedKey = (event) => {
     printSpeed.value = Math.round(
       letterNumber.value / ((currentTime.value - startTime.value) / 1000 / 60)
     );
-    if (errorCount === arrayOfLetters.value.length)
-      accuracy.value = 0;
+    if (errorCount === arrayOfLetters.value.length) accuracy.value = 0;
     console.log('ehf');
   }
 };
 
-const typingTest = ref(null);
-onMounted(() => {
-  typingTest.value.focus();
-}); //заменить на после нажатия кнопки
-
 let differenceAccuracy = 0;
 const accuracy = ref(100);
 
+const setupModal = ref(null);
+const typingTest = ref(null);
+onMounted(() => {
+  //  typingTest.value.focus();
+  setupModal.value.showModal();
+}); //заменить на после нажатия кнопки
+
+const startGetText = ref(false)
+const startTrain = async () => {
+  startGetText.value = true;
+  if (sentences.value !== 5)
+    await getText();
+  startGetText.value = false;
+  setupModal.value.close();
+  typingTest.value.focus();
+}
 </script>
 
 <template>
+  <dialog class="dialog" ref="setupModal" @cancel.prevent="">
+    <div class="dialog-content-wrapper">
+      <h3>Количетво предложений в тексте:</h3>
+      {{ sentences === Number(sentences) }}
+      <label v-for="n in 10" :key="n + 'sentences'">
+        {{ n }}
+        <input type="radio" name="sentences" :value="n" v-model="sentences" />
+      </label>
+      <button @click="startTrain" :disabled="startGetText">Начать</button>
+      <div v-if="startGetText">Грузим</div>
+    </div>
+  </dialog>
   <main
     class="typing-test"
     ref="typingTest"
@@ -137,5 +161,26 @@ const accuracy = ref(100);
 
 .text-content__letter_completed {
   color: blue;
+}
+
+.dialog {
+  border: none;
+}
+
+.dialog-content-wrapper {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.178);
+  /*backdrop-filter: blur(10px);*/
+  overflow: auto;
 }
 </style>
