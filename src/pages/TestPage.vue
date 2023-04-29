@@ -3,13 +3,15 @@ import { ref, onMounted } from 'vue';
 const arrayOfLetters = ref([]);
 const letterNumber = ref(0);
 const letterError = ref(false);
+let errorCount = 0;
 const getText = async () => {
   try {
     const response = await fetch(
-      'https://baconipsum.com/api/?type=meat-and-filler&paras=1' //пользовательский ввод
+      'https://baconipsum.com/api/?type=meat-and-filler&sentences=10' //пользовательский ввод
     );
     const json = await response.json();
     arrayOfLetters.value.push(...json[0].replaceAll('  ', ' ')); //текст возвращается с двумя пробелами перед началом следующего предложения
+    differenceAccuracy = 100 / arrayOfLetters.value.length;
   } catch (error) {
     console.error(error);
     //компонент вывода ошибки
@@ -29,6 +31,7 @@ let intervalID = undefined;
 const checkPressedKey = (event) => {
   /*if (event.key.charCodeAt() >= 32 && event.key.charCodeAt() <= 126)
     console.log(event.key.charCodeAt())*/
+  if (event.key === 'Shift') return;//еще много клавиш
   if (letterNumber.value === arrayOfLetters.value.length) return; //убрать когда сделаю переход на другую страницу при окончании, проверить возврат
   if (!startTime.value) {
     startTime.value = Date.now();
@@ -43,14 +46,22 @@ const checkPressedKey = (event) => {
   if (event.key === arrayOfLetters.value[letterNumber.value]) {
     letterNumber.value++;
     letterError.value = false;
-  } else letterError.value = true;
-
+  } else  {
+    if (!letterError.value) {
+      accuracy.value -= differenceAccuracy;
+      errorCount++;
+    }
+    if (accuracy.value < 0) accuracy.value = 0;
+    letterError.value = true;
+  }
   if (letterNumber.value === arrayOfLetters.value.length) {
     clearInterval(intervalID);
     currentTime.value = Date.now();
     printSpeed.value = Math.round(
       letterNumber.value / ((currentTime.value - startTime.value) / 1000 / 60)
     );
+    if (errorCount === arrayOfLetters.value.length)
+      accuracy.value = 0;
     console.log('ehf');
   }
 };
@@ -59,6 +70,10 @@ const typingTest = ref(null);
 onMounted(() => {
   typingTest.value.focus();
 }); //заменить на после нажатия кнопки
+
+let differenceAccuracy = 0;
+const accuracy = ref(100);
+
 </script>
 
 <template>
@@ -83,6 +98,7 @@ onMounted(() => {
       </span>
     </div>
     <div class="typing-test__print-speed">{{ printSpeed }} зн/мин</div>
+    <div class="typing-test__accuracy">{{ accuracy.toFixed(2) }}%</div>
   </main>
 </template>
 
