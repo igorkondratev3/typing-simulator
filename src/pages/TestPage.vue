@@ -17,15 +17,42 @@ const getText = async () => {
 };
 getText();
 
+/*for (let i = 1; i < 127; i++) {
+  console.log(i, String.fromCharCode(i))
+}*/
+
+const printSpeed = ref(0);
+const startTime = ref(0);
+const currentTime = ref(0);
+let intervalID = undefined;
+
 const checkPressedKey = (event) => {
+  /*if (event.key.charCodeAt() >= 32 && event.key.charCodeAt() <= 126)
+    console.log(event.key.charCodeAt())*/
   if (letterNumber.value === arrayOfLetters.value.length) return; //убрать когда сделаю переход на другую страницу при окончании, проверить возврат
+  if (!startTime.value) {
+    startTime.value = Date.now();
+    intervalID = setInterval(() => {
+      currentTime.value = Date.now();
+      printSpeed.value = Math.round(
+        letterNumber.value / ((currentTime.value - startTime.value) / 1000 / 60)
+      );
+    }, 1000);
+  }
 
   if (event.key === arrayOfLetters.value[letterNumber.value]) {
     letterNumber.value++;
     letterError.value = false;
   } else letterError.value = true;
 
-  if (letterNumber.value === arrayOfLetters.value.length) console.log('ehf');
+  if (letterNumber.value === arrayOfLetters.value.length) {
+    clearInterval(intervalID);
+    currentTime.value = Date.now();
+    printSpeed.value = Math.round(
+      letterNumber.value / ((currentTime.value - startTime.value) / 1000 / 60)
+    );
+    console.log('ehf');
+  }
 };
 
 const typingTest = ref(null);
@@ -55,6 +82,7 @@ onMounted(() => {
         {{ letter }}
       </span>
     </div>
+    <div class="typing-test__print-speed">{{ printSpeed }} зн/мин</div>
   </main>
 </template>
 
