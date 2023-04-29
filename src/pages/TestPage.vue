@@ -4,7 +4,7 @@ const arrayOfLetters = ref([]);
 const letterNumber = ref(0);
 const letterError = ref(false);
 let errorCount = 0;
-const sentences = ref(5)
+const sentences = ref(5);
 
 const getText = async () => {
   try {
@@ -19,7 +19,6 @@ const getText = async () => {
     //компонент вывода ошибки
   }
 };
-getText();
 
 /*for (let i = 1; i < 127; i++) {
   console.log(i, String.fromCharCode(i))
@@ -77,28 +76,49 @@ onMounted(() => {
   setupModal.value.showModal();
 }); //заменить на после нажатия кнопки
 
-const startGetText = ref(false)
+const startGetText = ref(false);
 const startTrain = async () => {
   startGetText.value = true;
-  if (sentences.value !== 5)
-    await getText();
+  await getText();
   startGetText.value = false;
   setupModal.value.close();
   typingTest.value.focus();
-}
+};
 </script>
 
 <template>
   <dialog class="dialog" ref="setupModal" @cancel.prevent="">
-    <div class="dialog-content-wrapper">
-      <h3>Количетво предложений в тексте:</h3>
-      {{ sentences === Number(sentences) }}
-      <label v-for="n in 10" :key="n + 'sentences'">
-        {{ n }}
-        <input type="radio" name="sentences" :value="n" v-model="sentences" />
-      </label>
-      <button @click="startTrain" :disabled="startGetText">Начать</button>
-      <div v-if="startGetText">Грузим</div>
+    <div class="dialog__wrapper">
+      <div class="dialog__setup-test setup-test">
+        <h3 class="setup-test__header">Настройка параметров</h3>
+        <h5 class="setup-test__sentences-header">
+          Количетво предложений в тексте:
+        </h5>
+        <div class="sentences">
+          <label
+            class="sentences__sentence sentence"
+            v-for="n in 10"
+            :key="n + 'sentences'"
+          >
+            <p class="sentence__value">{{ n }}</p>
+            <input
+              class="sentence__radio"
+              type="radio"
+              name="sentences"
+              :value="n"
+              v-model="sentences"
+            />
+          </label>
+        </div>
+        <button
+          class="setup-test__start"
+          @click="startTrain"
+          :disabled="startGetText"
+        >
+          Начать
+        </button>
+        <div v-show="startGetText">Грузим</div>
+      </div>
     </div>
   </dialog>
   <main
@@ -107,22 +127,50 @@ const startTrain = async () => {
     tabindex="1"
     @keydown="checkPressedKey"
   >
-    <div class="typing-test__text-content text-content">
-      <span
-        class="text-content__letter"
-        v-for="(letter, index) of arrayOfLetters"
-        :key="index + letter"
-        :class="{
-          'text-content__letter_current': index === letterNumber,
-          'text-content__letter_completed': index < letterNumber,
-          'text-content__letter_error': index === letterNumber && letterError
-        }"
-      >
-        {{ letter }}
-      </span>
+    <div class="typing-test__statistic-and-content">
+      <div class="typing-test__statistic statistic">
+        <div class="statistic__icon-and-parameter">
+          <img class="statistic__icon" src="/src/assets/svg/speed.svg" />
+          <div class="statistic__parameter statistic-parameter">
+            <p class="statistic-parameter__header">Скорость:</p>
+            <div class="statistic-parameter__value">
+              <p class="statistic-parameter__speed">{{ printSpeed }}</p>
+              <p>зн/мин</p>
+            </div>
+          </div>
+        </div>
+        <div class="statistic__icon-and-parameter">
+          <img class="statistic__icon" src="/src/assets/svg/task.svg" />
+          <div class="statistic__parameter statistic-parameter">
+            <p class="statistic-parameter__header">Точночть:</p>
+            <div class="statistic-parameter__value">
+              <p class="statistic-parameter__accuracy">
+                {{ accuracy.toFixed(2) }}
+              </p>
+              <p>%</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="typing-test__text-content text-content">
+        <span
+          class="text-content__letter"
+          v-for="(letter, index) of arrayOfLetters"
+          :key="index + letter"
+          :class="{
+            'text-content__letter_current': index === letterNumber,
+            'text-content__letter_completed': index < letterNumber,
+            'text-content__letter_error': index === letterNumber && letterError
+          }"
+        >
+          {{ letter }}
+        </span>
+        <button class="typing-test__restart">
+          <img class="statistic__icon" src="/src/assets/svg/restart.svg"/>
+        </button>
+      </div>
     </div>
-    <div class="typing-test__print-speed">{{ printSpeed }} зн/мин</div>
-    <div class="typing-test__accuracy">{{ accuracy.toFixed(2) }}%</div>
   </main>
 </template>
 
@@ -130,11 +178,10 @@ const startTrain = async () => {
 .typing-test {
   display: flex;
   flex-direction: column;
+  align-items: center;
   flex-grow: 1;
-  min-height: 100vh;
   padding-top: 16px;
   padding-left: 16px;
-  background-color: rgb(232, 238, 233);
 }
 
 .typing-test:focus {
@@ -143,16 +190,19 @@ const startTrain = async () => {
 
 .typing-test__text-content {
   width: 600px;
+  min-height: 200px;
   background-color: rgb(253, 240, 222);
   padding: 16px;
   border: 1px solid black;
   border-radius: 16px;
   font-size: 24px;
   user-select: none;
+  text-align: justify;
 }
 
 .text-content__letter_current {
   background-color: rgb(199, 199, 216);
+  font-weight: 700;
 }
 
 .text-content__letter_error {
@@ -167,7 +217,7 @@ const startTrain = async () => {
   border: none;
 }
 
-.dialog-content-wrapper {
+.dialog__wrapper {
   position: fixed;
   left: 0;
   top: 0;
@@ -179,8 +229,124 @@ const startTrain = async () => {
   height: 100vh;
   width: 100vw;
   overflow: auto;
-  background-color: rgba(0, 0, 0, 0.178);
-  /*backdrop-filter: blur(10px);*/
+  background-color: rgba(0, 0, 0, 0.616);
+  backdrop-filter: blur(10px);
   overflow: auto;
 }
+
+.dialog__setup-test {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  background-color: rgb(186, 187, 190);
+  align-items: center;
+  border-radius: 8px;
+}
+
+.setup-test__header {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 32px;
+}
+
+.setup-test__sentences-header {
+  font-size: 24px;
+}
+
+.sentences {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.sentence {
+  margin-right: 8px;
+  margin-left: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sentence__value {
+  font-size: 24px;
+}
+
+.sentence__radio {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  outline: none;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  background-color: rgb(221, 231, 231);
+  transition: background-color 0.3s linear;
+}
+
+.sentence__radio:checked {
+  background-color: rgb(66, 63, 63);
+}
+
+.sentence__radio:focus {
+  outline: 2px solid white;
+}
+
+.setup-test__start {
+  width: 200px;
+  border: none;
+  padding: 16px;
+  font-size: 24px;
+  background-color: rgb(88, 143, 245);
+  cursor: pointer;
+  border-radius: 8px;
+  margin-top: 32px;
+}
+.statistic {
+  display: flex;
+  justify-content: space-around;
+  font-size: 24px;
+}
+
+.statistic__parameter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.statistic__icon-and-parameter {
+  display: flex;
+  align-items: center;
+}
+
+.statistic__icon {
+  width: 48px;
+  height: 48px;
+  margin-right: 8px;
+}
+
+.statistic-parameter__value {
+  display: flex;
+}
+
+.statistic-parameter__speed {
+  width: 50px;
+  text-align: center;
+}
+
+.statistic-parameter__accuracy {
+  width: 75px;
+  text-align: center;
+}
+
+.typing-test__restart {
+  position: absolute;
+  right: -52px;
+  bottom: -8px;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+}
+
+
 </style>

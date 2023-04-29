@@ -1,3 +1,5 @@
+@import './fonts.css';
+
 *,
 *::before,
 *::after {
@@ -6,5 +8,6 @@
   padding: 0;
   position: relative;
   font-weight: normal;
+  font-family: 'AlegreyaCY', 'AlegreyaLA';
 }
 
