@@ -20,11 +20,12 @@ defineEmits(['restartTest']);
 <style>
 .restart-button {
   position: absolute;
-  right: -52px;
-  bottom: -8px;
+  right: 0;
+  bottom: 0;
+  transform: translateX(100%);
+  border: none;
   cursor: pointer;
   background-color: transparent;
-  border: none;
 }
 
 .restart-button__icon {

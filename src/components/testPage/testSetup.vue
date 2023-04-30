@@ -41,6 +41,7 @@ const goToTest = async () => {
             class="sentence__radio"
             type="radio"
             name="sentences"
+            :autofocus="n === sentences"
             :value="n"
             v-model="sentences"
           />
@@ -85,66 +86,36 @@ const goToTest = async () => {
 .dialog__test-setup {
   display: flex;
   flex-direction: column;
+  margin-bottom: 100px;
   padding: 16px;
+  border-radius: 8px;
   background-color: rgb(186, 187, 190);
   align-items: center;
-  border-radius: 8px;
-  margin-bottom: 100px;
 }
 
 .test-setup__header {
+  margin-bottom: 32px;
   font-size: 32px;
   font-weight: 700;
-  margin-bottom: 32px;
 }
 
 .test-setup__sentences-header {
   font-size: 24px;
 }
 
-.test-setup__start {
-  width: 200px;
-  border: none;
-  padding: 16px;
-  font-size: 24px;
-  background-color: rgb(88, 143, 245);
-  cursor: pointer;
-  border-radius: 8px;
-  margin-top: 32px;
-}
-
-.test-setup__start:disabled {
-  background-color: rgb(179, 181, 182);
-}
-
-.test-setup__message {
-  background-color: rgb(201, 80, 80);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  font-size: 24px;
-  padding: 16px;
-  border-radius: 8px;
-  transform: translateY(calc(100% + 8px));
-}
-
-.test-setup__message_load {
-  background-color: rgb(88, 143, 245);
-}
-
 .sentences {
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
   margin-top: 8px;
 }
 
-.sentence {
+.sentences__sentence {
   margin-right: 8px;
   margin-left: 8px;
+}
+
+.sentence {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -161,7 +132,7 @@ const goToTest = async () => {
   width: 20px;
   height: 20px;
   outline: none;
-  border: 1px solid transparent;
+  border: none;
   border-radius: 50%;
   background-color: rgb(221, 231, 231);
   transition: background-color 0.3s linear;
@@ -172,6 +143,45 @@ const goToTest = async () => {
 }
 
 .sentence__radio:focus {
-  outline: 2px solid white;
+  outline: 1px solid white;
+}
+
+.test-setup__start {
+  width: 200px;
+  margin-top: 32px;
+  padding: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 24px;
+  background-color: rgb(88, 143, 245);
+}
+
+.test-setup__start:disabled {
+  background-color: rgb(161, 163, 163);
+}
+
+.test-setup__start:focus {
+  outline: 1px solid black;
+  outline-offset: 2px;
+}
+
+.test-setup__message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: absolute;
+  bottom: 0;
+  transform: translateY(calc(100% + 8px));
+  width: 100%;
+  padding: 16px;
+  border-radius: 8px;
+  font-size: 24px;
+  background-color: rgb(201, 80, 80);
+}
+
+.test-setup__message_load {
+  background-color: rgb(88, 143, 245);
 }
 </style>

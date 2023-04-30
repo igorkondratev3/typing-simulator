@@ -113,13 +113,16 @@ const restartTest = () => {
 </template>
 
 <style>
+.dialog {
+  border: none;
+}
+
 .typing-test {
   display: flex;
   flex-direction: column;
   align-items: center;
   flex-grow: 1;
-  padding-top: 16px;
-  padding-left: 16px;
+  padding-top: 32px;
 }
 
 .typing-test:focus {
@@ -129,25 +132,25 @@ const restartTest = () => {
 .typing-test__text-content {
   width: 600px;
   min-height: 200px;
-  background-color: rgb(253, 240, 222);
   padding: 16px;
   border: 1px solid black;
   border-radius: 16px;
-  font-size: 24px;
   user-select: none;
+  font-size: 24px;
   text-align: justify;
+  background-color: rgb(253, 240, 222);
 }
 
 .text-content__letter {
-  letter-spacing: 0.5px;
   border-radius: 2px;
+  letter-spacing: 0.5px;
 }
 
 .text-content__letter_current {
-  background-color: rgb(178, 178, 180);
-  font-weight: 700;
   padding-left: 2px;
   padding-right: 2px;
+  font-weight: 700;
+  background-color: rgb(178, 178, 180);
 }
 
 .text-content__letter_error {
@@ -156,9 +159,5 @@ const restartTest = () => {
 
 .text-content__letter_completed {
   color: blue;
-}
-
-.dialog {
-  border: none;
 }
 </style>

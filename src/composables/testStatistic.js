@@ -24,8 +24,7 @@ export const useTestStatistic = () => {
   const stopTest = () => {
     clearInterval(printSpeedCalcInterval);
     printSpeed.value = Math.round(
-      currentLetterNumber.value /
-        ((Date.now() - startPrintTime) / 1000 / 60)
+      currentLetterNumber.value / ((Date.now() - startPrintTime) / 1000 / 60)
     );
   };
 

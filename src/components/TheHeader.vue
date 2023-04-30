@@ -13,5 +13,6 @@
   align-items: center;
   padding: 24px;
   font-size: 32px;
+  text-align: center;
 }
 </style>

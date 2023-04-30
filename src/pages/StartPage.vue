@@ -4,16 +4,20 @@ import { RouterLink } from 'vue-router';
 
 <template>
   <main class="start-page">
-    <div class="start-page__message-block message-block">
-      <img class="message-block__icon" src="/src/assets/svg/keyboard.svg" />
-      <p class="message-block__message">
+    <div class="start-page__message start-message">
+      <img
+        class="start-message__icon"
+        src="/src/assets/svg/keyboard.svg"
+        alt="keyboard"
+      />
+      <p class="start-message__message">
         Тренажер слепой печати позволит вам узнать насколько быстро и
         качественно вы способны печатать текст на английском языке. Вам будет
         предложено напечатать небольшой фрагмент текста, после чего вы сможете
         ознакомиться с результатами.
       </p>
     </div>
-    <RouterLink to="/test">
+    <RouterLink class="start-page__link" to="/test">
       <button class="start-page__start-test">Пройти тест печати</button>
     </RouterLink>
   </main>
@@ -28,33 +32,43 @@ import { RouterLink } from 'vue-router';
   padding-top: 96px;
 }
 
-.start-page__message-block {
+.start-page__message {
   max-width: 600px;
-  background-color: rgba(88, 143, 245, 0.459);
   padding: 16px;
   border-radius: 8px;
+  background-color: rgba(88, 143, 245, 0.459);
 }
 
-.message-block__icon {
+.start-message__icon {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translateY(-100%);
   width: 48px;
   height: 48px;
-  position: absolute;
-  left: -4px;
-  top: -40px;
 }
 
-.message-block__message {
+.start-message__message {
   font-size: 24px;
   text-align: justify;
 }
 
+.start-page__link {
+  margin-top: 16px;
+  border-radius: 8px;
+}
+
+.start-page__link:focus {
+  outline: 1px solid black;
+  outline-offset: 2px;
+}
+
 .start-page__start-test {
-  border: none;
   padding: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
   font-size: 24px;
   background-color: rgb(88, 143, 245);
-  cursor: pointer;
-  border-radius: 8px;
-  margin-top: 16px;
 }
 </style>

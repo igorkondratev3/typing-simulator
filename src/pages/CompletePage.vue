@@ -22,16 +22,18 @@ const printSpeedDeclination = (printSpeed) => {
 
 <template>
   <main class="complete-page">
-    <div class="complete-page__message-block message-block">
+    <div class="complete-page__message complete-message">
       <TestStatistic :accuracy="accuracy" :printSpeed="printSpeed" />
-      <p class="message-block__message">
+      <p class="complete-message__value">
         Вы печатаете текст на английском языке со скоростью
         {{ printSpeed }} {{ printSpeedDeclination(Number(printSpeed)) }} в
         минуту и с точность {{ accuracy }} %.
       </p>
     </div>
     <RouterLink to="/test">
-      <button class="complete-page__start-test">Пройти тест повторно</button>
+      <button class="complete-page__start-new-test">
+        Пройти тест повторно
+      </button>
     </RouterLink>
   </main>
 </template>
@@ -42,29 +44,29 @@ const printSpeedDeclination = (printSpeed) => {
   flex-direction: column;
   align-items: center;
   flex-grow: 1;
-  padding-top: 96px;
+  padding-top: 32px;
 }
 
-.complete-page__message-block {
+.complete-page__message {
   max-width: 600px;
-  background-color: rgba(88, 143, 245, 0.459);
   padding: 16px;
   border-radius: 8px;
+  background-color: rgba(88, 143, 245, 0.459);
 }
 
-.message-block__message {
+.complete-message__value {
+  margin-top: 24px;
   font-size: 24px;
   text-align: justify;
-  margin-top: 24px;
 }
 
-.complete-page__start-test {
-  border: none;
+.complete-page__start-new-test {
+  margin-top: 16px;
   padding: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
   font-size: 24px;
   background-color: rgb(88, 143, 245);
-  cursor: pointer;
-  border-radius: 8px;
-  margin-top: 16px;
 }
 </style>
