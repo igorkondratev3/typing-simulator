@@ -59,7 +59,13 @@ const checkPressedKey = (event) => {
   if (currentLetterNumber.value === arrayOfLetters.value.length) {
     stopTest();
     normalizeAccuracy(arrayOfLetters.value.length);
-    router.push('/');
+    router.push({
+      name: 'CompletePage',
+      query: {
+        accuracy: accuracy.value.toFixed(2),
+        printSpeed: String(printSpeed.value)
+      }
+    });
   }
 };
 
@@ -81,7 +87,10 @@ const restartTest = () => {
     @keypress="checkPressedKey"
   >
     <div class="typing-test__statistic-and-content">
-      <TestStatistic :accuracy="accuracy" :printSpeed="printSpeed" />
+      <TestStatistic
+        :accuracy="accuracy.toFixed(2)"
+        :printSpeed="String(printSpeed)"
+      />
       <div class="typing-test__text-content text-content">
         <span
           class="text-content__letter"

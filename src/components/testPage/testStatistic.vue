@@ -1,7 +1,7 @@
 <script setup>
 defineProps({
-  accuracy: Number,
-  printSpeed: Number
+  accuracy: String,
+  printSpeed: String
 });
 </script>
 
@@ -23,7 +23,7 @@ defineProps({
         <p class="statistic-parameter__header">Точночть:</p>
         <div class="statistic-parameter__value">
           <p class="statistic-parameter__accuracy">
-            {{ accuracy.toFixed(2) }}
+            {{ accuracy }}
           </p>
           <p>%</p>
         </div>

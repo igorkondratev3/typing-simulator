@@ -1,7 +1,7 @@
 export const getText = async (sentences) => {
   try {
     const response = await fetch(
-      `https://baconipsum.com/api/?type=meat-and-filler&sentences=${sentences}` //пользовательский ввод
+      `https://baconipsum.com/api/?type=meat-and-filler&sentences=${sentences}`
     );
     const json = await response.json();
     return {text: json};
