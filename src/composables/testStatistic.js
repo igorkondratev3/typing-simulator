@@ -4,7 +4,7 @@ export const useTestStatistic = () => {
   const currentLetterNumber = ref(0);
   const printSpeed = ref(0);
   const accuracy = ref(100);
-  const letterErrorCount = ref(0);
+  let letterErrorCount = 0;
   let startPrintTime = 0;
   let printSpeedCalcInterval;
   let accuracyStep = 0;
@@ -35,15 +35,17 @@ export const useTestStatistic = () => {
 
   const normalizeAccuracy = (numberOfLetters) => {
     if (accuracy.value < 0) accuracy.value = 0;
-    if (letterErrorCount.value === numberOfLetters) accuracy.value = 0;
+    if (letterErrorCount === numberOfLetters) accuracy.value = 0;
   };
+
+  const increaseError = () => {letterErrorCount++; console.log(letterErrorCount)};
 
   const resetStatistic = () => {
     clearInterval(printSpeedCalcInterval);
     currentLetterNumber.value = 0;
     printSpeed.value = 0;
     accuracy.value = 100;
-    letterErrorCount.value = 0;
+    letterErrorCount = 0;
     startPrintTime = 0;
     printSpeedCalcInterval = undefined;
     accuracyStep = 0;
@@ -53,7 +55,7 @@ export const useTestStatistic = () => {
     printSpeed,
     currentLetterNumber,
     accuracy,
-    letterErrorCount,
+    increaseError,
     checkAndStartTest,
     stopTest,
     calcAccuracyStep,

@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router';
 import TestSetup from '@/components/testPage/testSetup.vue';
 import TestStatistic from '@/components/testPage/testStatistic.vue';
 import RestartButton from '@/components/testPage/restartButton.vue';
-import LanguageError from '@/components/testPage/languageError.vue';
+import ServiceMessage from '@/components/serviceMessage.vue';
 import { checkLanguage } from '@/helpers/testPage.js';
 import { useTestStatistic } from '@/composables/testStatistic.js';
 
@@ -29,7 +29,7 @@ const {
   currentLetterNumber,
   printSpeed,
   accuracy,
-  letterErrorCount,
+  increaseError,
   checkAndStartTest,
   stopTest,
   calcAccuracyStep,
@@ -46,7 +46,7 @@ const checkPressedKey = (event) => {
     if (!isLetterError.value) {
       calcAccuracy();
       normalizeAccuracy(arrayOfLetters.value.length);
-      letterErrorCount.value++;
+      increaseError();
     }
     isLetterError.value = true;
   }
@@ -106,7 +106,10 @@ const restartTest = () => {
           {{ letter }}
         </span>
         <RestartButton @restartTest="restartTest" />
-        <LanguageError v-if="isLanguageError" />
+        <ServiceMessage
+          message="Смените раскладку клавиатуры на английскую"
+          v-if="isLanguageError"
+        />
       </div>
     </div>
   </main>
@@ -158,6 +161,6 @@ const restartTest = () => {
 }
 
 .text-content__letter_completed {
-  color: blue;
+  color: rgb(77, 77, 231);
 }
 </style>

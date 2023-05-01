@@ -30,10 +30,8 @@ const printSpeedDeclination = (printSpeed) => {
         минуту и с точность {{ accuracy }} %.
       </p>
     </div>
-    <RouterLink to="/test">
-      <button class="complete-page__start-new-test">
-        Пройти тест повторно
-      </button>
+    <RouterLink class="complete-page__test-link" to="/test">
+      Пройти тест повторно
     </RouterLink>
   </main>
 </template>
@@ -60,13 +58,19 @@ const printSpeedDeclination = (printSpeed) => {
   text-align: justify;
 }
 
-.complete-page__start-new-test {
+.complete-page__test-link {
   margin-top: 16px;
   padding: 16px;
   border: none;
   border-radius: 8px;
-  cursor: pointer;
   font-size: 24px;
+  color: black;
+  text-decoration: none;
   background-color: rgb(88, 143, 245);
+}
+
+.complete-page__test-link:focus {
+  outline: 1px solid black;
+  outline-offset: 2px;
 }
 </style>

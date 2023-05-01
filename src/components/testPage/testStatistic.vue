@@ -75,11 +75,21 @@ defineProps({
 
 .statistic-parameter__speed {
   width: 50px;
+  margin-right: 2px;
+  font-size: 32px;
   text-align: center;
 }
 
 .statistic-parameter__accuracy {
-  width: 75px;
+  width: 90px;
+  margin-right: 2px;
+  font-size: 32px;
   text-align: center;
+}
+
+.statistic-parameter__units {
+  display: flex;
+  align-items: center;
+  font-size: 20px;
 }
 </style>

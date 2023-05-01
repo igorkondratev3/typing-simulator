@@ -1,10 +1,11 @@
 <script setup>
 import { ref } from 'vue';
 import { getText } from '@/helpers/testPage.js';
+import ServiceMessage from '@/components/serviceMessage.vue';
 
 const emit = defineEmits(['goToTest']);
 
-const sentences = ref(5);
+const sentences = ref(JSON.parse(localStorage.getItem('sentences')) || 3);
 const isGettingText = ref(false);
 const gettingTextMessage = ref('');
 
@@ -17,9 +18,10 @@ const goToTest = async () => {
     isGettingText.value = false;
     return;
   }
-  emit('goToTest', textObj.text);
+  localStorage.setItem('sentences', JSON.stringify(sentences.value));
   gettingTextMessage.value = '';
   isGettingText.value = false;
+  emit('goToTest', textObj.text);
 };
 </script>
 
@@ -33,7 +35,7 @@ const goToTest = async () => {
       <div class="sentences">
         <label
           class="sentences__sentence sentence"
-          v-for="n in 10"
+          v-for="n in 5"
           :key="n + 'sentences'"
         >
           <p class="sentence__value">{{ n }}</p>
@@ -54,13 +56,11 @@ const goToTest = async () => {
       >
         Начать
       </button>
-      <div
-        class="test-setup__message"
-        :class="{ 'test-setup__message_load': isGettingText }"
+      <ServiceMessage
         v-show="gettingTextMessage"
-      >
-        {{ gettingTextMessage }}
-      </div>
+        :message="gettingTextMessage"
+        :class="{ 'service-message_blue': isGettingText }"
+      />
     </div>
   </div>
 </template>
@@ -81,6 +81,19 @@ const goToTest = async () => {
   background-color: rgba(0, 0, 0, 0.616);
   backdrop-filter: blur(10px);
   overflow: auto;
+  scrollbar-width: none;
+}
+
+.dialog__wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.dialog__wrapper::-webkit-scrollbar-track {
+  display: none;
+}
+
+.dialog__wrapper::-webkit-scrollbar-thumb {
+  display: none;
 }
 
 .dialog__test-setup {
@@ -167,21 +180,18 @@ const goToTest = async () => {
 }
 
 .test-setup__message {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  transform: translateY(calc(100% + 8px));
   display: flex;
   justify-content: center;
   align-items: center;
-  text-align: center;
-  position: absolute;
-  bottom: 0;
-  transform: translateY(calc(100% + 8px));
   width: 100%;
   padding: 16px;
   border-radius: 8px;
   font-size: 24px;
+  text-align: center;
   background-color: rgb(201, 80, 80);
-}
-
-.test-setup__message_load {
-  background-color: rgb(88, 143, 245);
 }
 </style>

@@ -17,8 +17,8 @@ import { RouterLink } from 'vue-router';
         ознакомиться с результатами.
       </p>
     </div>
-    <RouterLink class="start-page__link" to="/test">
-      <button class="start-page__start-test">Пройти тест печати</button>
+    <RouterLink class="start-page__test-link" to="/test">
+      Пройти тест печати
     </RouterLink>
   </main>
 </template>
@@ -53,22 +53,19 @@ import { RouterLink } from 'vue-router';
   text-align: justify;
 }
 
-.start-page__link {
+.start-page__test-link {
   margin-top: 16px;
-  border-radius: 8px;
-}
-
-.start-page__link:focus {
-  outline: 1px solid black;
-  outline-offset: 2px;
-}
-
-.start-page__start-test {
   padding: 16px;
   border: none;
   border-radius: 8px;
-  cursor: pointer;
   font-size: 24px;
+  color: black;
+  text-decoration: none;
   background-color: rgb(88, 143, 245);
+}
+
+.start-page__test-link:focus {
+  outline: 1px solid black;
+  outline-offset: 2px;
 }
 </style>
