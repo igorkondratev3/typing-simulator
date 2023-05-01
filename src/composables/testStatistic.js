@@ -38,7 +38,7 @@ export const useTestStatistic = () => {
     if (letterErrorCount === numberOfLetters) accuracy.value = 0;
   };
 
-  const increaseError = () => {letterErrorCount++; console.log(letterErrorCount)};
+  const increaseError = () => letterErrorCount++;
 
   const resetStatistic = () => {
     clearInterval(printSpeedCalcInterval);

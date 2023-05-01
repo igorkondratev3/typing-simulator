@@ -1,6 +1,8 @@
 <script setup>
 import { RouterLink } from 'vue-router';
 import TestStatistic from '@/components/testPage/testStatistic.vue';
+import TheKeyboard from '@/components/theKeyboard.vue';
+import TheHeader from '@/components/TheHeader.vue';
 
 defineProps({
   accuracy: String,
@@ -21,56 +23,79 @@ const printSpeedDeclination = (printSpeed) => {
 </script>
 
 <template>
-  <main class="complete-page">
-    <div class="complete-page__message complete-message">
-      <TestStatistic :accuracy="accuracy" :printSpeed="printSpeed" />
-      <p class="complete-message__value">
-        Вы печатаете текст на английском языке со скоростью
-        {{ printSpeed }} {{ printSpeedDeclination(Number(printSpeed)) }} в
-        минуту и с точность {{ accuracy }} %.
-      </p>
-    </div>
-    <RouterLink class="complete-page__test-link" to="/test">
-      Пройти тест повторно
-    </RouterLink>
-  </main>
+  <div class="complete-page page-wrapper">
+    <TheHeader />
+    <main class="complete-page__main">
+      <div class="complete-page__message-and-link">
+        <div class="complete-page__message complete-message">
+          <TestStatistic :accuracy="accuracy" :printSpeed="printSpeed" />
+          <p class="complete-message__value">
+            Вы печатаете текст на английском языке со скоростью
+            {{ printSpeed }} {{ printSpeedDeclination(Number(printSpeed)) }} в
+            минуту и с точность {{ accuracy }} %.
+          </p>
+        </div>
+        <RouterLink class="complete-page__test-link" to="/test">
+          <button class="complete-page__button" tabindex="-1">
+            Пройти тест повторно
+          </button>
+        </RouterLink>
+      </div>
+
+      <TheKeyboard language="english" />
+    </main>
+  </div>
 </template>
 
 <style>
-.complete-page {
+.complete-page__main {
   display: flex;
   flex-direction: column;
   align-items: center;
   flex-grow: 1;
-  padding-top: 32px;
+}
+
+.start-page__message-and-link {
+  display: flex;
+  flex-direction: column;/*попробовать убрать*/
+  width: 600px; /*max width*/
+  margin-top: 32px;
 }
 
 .complete-page__message {
-  max-width: 600px;
+  width: 600;
+  margin-top: 32px;
   padding: 16px;
   border-radius: 8px;
   background-color: rgba(88, 143, 245, 0.459);
 }
 
 .complete-message__value {
+  max-width: 600px;
   margin-top: 24px;
   font-size: 24px;
   text-align: justify;
 }
 
 .complete-page__test-link {
-  margin-top: 16px;
-  padding: 16px;
-  border: none;
-  border-radius: 8px;
-  font-size: 24px;
-  color: black;
+  display: block;
+  margin-top: 4px;
   text-decoration: none;
-  background-color: rgb(88, 143, 245);
 }
 
 .complete-page__test-link:focus {
   outline: 1px solid black;
   outline-offset: 2px;
+}
+
+.complete-page__button {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 24px;
+  color: black;
+  background-color: rgb(88, 143, 245);
 }
 </style>

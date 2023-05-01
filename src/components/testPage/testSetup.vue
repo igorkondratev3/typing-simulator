@@ -5,7 +5,10 @@ import ServiceMessage from '@/components/serviceMessage.vue';
 
 const emit = defineEmits(['goToTest']);
 
-const sentences = ref(JSON.parse(localStorage.getItem('sentences')) || 3);
+const testSetupLS = JSON.parse(localStorage.getItem('testSetup'));
+
+const sentences = ref(testSetupLS?.sentences || 3);
+const seenKeyboard = ref(testSetupLS?.seenKeyboard ?? true);
 const isGettingText = ref(false);
 const gettingTextMessage = ref('');
 
@@ -18,10 +21,13 @@ const goToTest = async () => {
     isGettingText.value = false;
     return;
   }
-  localStorage.setItem('sentences', JSON.stringify(sentences.value));
+  localStorage.setItem('testSetup', JSON.stringify({
+    sentences: sentences.value,
+    seenKeyboard: seenKeyboard.value
+  }));
   gettingTextMessage.value = '';
   isGettingText.value = false;
-  emit('goToTest', textObj.text);
+  emit('goToTest', textObj.text, seenKeyboard.value);
 };
 </script>
 
@@ -49,6 +55,15 @@ const goToTest = async () => {
           />
         </label>
       </div>
+      <h5 class="test-setup__keyboard-visibility-header">
+        Показывать клавиатуру
+      </h5>
+      <input
+        class="test-setup__keyboard-visibility"
+        type="checkbox"
+        v-model="seenKeyboard"
+        @keyup.enter="seenKeyboard = !seenKeyboard"
+      />
       <button
         class="test-setup__start"
         @click="goToTest"
@@ -159,6 +174,39 @@ const goToTest = async () => {
   outline: 1px solid white;
 }
 
+.test-setup__keyboard-visibility-header {
+  margin-top: 24px;
+  margin-bottom: 8px;
+  font-size: 24px;
+}
+
+.test-setup__keyboard-visibility {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  outline: 1px solid transparent;
+  outline-offset: 2px;
+  border: 1px solid white;
+  border-radius: 4px;
+  background: rgb(232, 238, 233);
+  transition: background 0.3s linear, border 0.3s linear;
+}
+
+.test-setup__keyboard-visibility:checked {
+  background: rgb(66, 63, 63) url('/src/assets/svg/check.svg');
+  border: 1px solid rgb(66, 63, 63);
+}
+
+.test-setup__keyboard-visibility:focus {
+  outline: 2px solid rgb(66, 63, 63);
+}
+
+.test-setup__keyboard-visibility:checked:focus {
+  outline: 2px solid white;
+}
+
 .test-setup__start {
   width: 200px;
   margin-top: 32px;
@@ -177,21 +225,5 @@ const goToTest = async () => {
 .test-setup__start:focus {
   outline: 1px solid black;
   outline-offset: 2px;
-}
-
-.test-setup__message {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  transform: translateY(calc(100% + 8px));
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  padding: 16px;
-  border-radius: 8px;
-  font-size: 24px;
-  text-align: center;
-  background-color: rgb(201, 80, 80);
 }
 </style>

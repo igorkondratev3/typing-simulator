@@ -14,5 +14,6 @@
   padding: 24px;
   font-size: 32px;
   text-align: center;
+  user-select: none;
 }
 </style>

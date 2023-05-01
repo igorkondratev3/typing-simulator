@@ -5,6 +5,8 @@ import TestSetup from '@/components/testPage/testSetup.vue';
 import TestStatistic from '@/components/testPage/testStatistic.vue';
 import RestartButton from '@/components/testPage/restartButton.vue';
 import ServiceMessage from '@/components/serviceMessage.vue';
+import TheHeader from '@/components/TheHeader.vue';
+import TheKeyboard from '@/components/theKeyboard.vue';
 import { checkLanguage } from '@/helpers/testPage.js';
 import { useTestStatistic } from '@/composables/testStatistic.js';
 
@@ -14,12 +16,15 @@ onMounted(() => {
 });
 
 const arrayOfLetters = ref([]);
-const typingTest = ref(null);
-const goToTest = (text) => {
+const testPage = ref(null);
+const seenKeyboardLS = JSON.parse(localStorage.getItem('testSetup'))?.seenKeyboard;
+const seenKeyboard = ref(seenKeyboardLS ?? true)
+const goToTest = (text, keyboardVisibility) => {
+  seenKeyboard.value = keyboardVisibility;
   arrayOfLetters.value = [...text[0].replaceAll('  ', ' ')]; //текст возвращается с двумя пробелами перед началом следующего предложения
   calcAccuracyStep(arrayOfLetters.value.length);
   setupModal.value.close();
-  typingTest.value.focus();
+  testPage.value.focus();
 };
 
 const router = useRouter();
@@ -38,9 +43,17 @@ const {
   resetStatistic
 } = useTestStatistic();
 
+const pressedKey = ref('');
+const setPressedKey = (key) => {
+  pressedKey.value = key;
+  setTimeout(() => pressedKey.value = '', 50);
+}
+
 const checkPressedKey = (event) => {
   if (!checkLanguage(event.key, isLanguageError)) return;
   checkAndStartTest();
+
+  setPressedKey(event.key)
 
   if (event.key !== arrayOfLetters.value[currentLetterNumber.value]) {
     if (!isLetterError.value) {
@@ -72,6 +85,7 @@ const checkPressedKey = (event) => {
 const restartTest = () => {
   resetStatistic();
   isLetterError.value = false;
+  pressedKey.value = '';
   setupModal.value.showModal();
 };
 </script>
@@ -80,44 +94,59 @@ const restartTest = () => {
   <dialog class="dialog" ref="setupModal" @cancel.prevent="">
     <TestSetup @goToTest="goToTest" />
   </dialog>
-  <main
-    class="typing-test"
-    ref="typingTest"
+  <div
+    class="test-page page-wrapper"
+    ref="testPage"
     tabindex="1"
     @keypress="checkPressedKey"
+    @keydown.tab.prevent=""
+    @keydown.space.prevent="checkPressedKey({ key: ' ' })"
   >
-    <div class="typing-test__statistic-and-content">
-      <TestStatistic
-        :accuracy="accuracy.toFixed(2)"
-        :printSpeed="String(printSpeed)"
-      />
-      <div class="typing-test__text-content text-content">
-        <span
-          class="text-content__letter"
-          v-for="(letter, index) of arrayOfLetters"
-          :key="index + letter"
-          :class="{
-            'text-content__letter_current': index === currentLetterNumber,
-            'text-content__letter_completed': index < currentLetterNumber,
-            'text-content__letter_error':
-              index === currentLetterNumber && isLetterError
-          }"
-        >
-          {{ letter }}
-        </span>
-        <RestartButton @restartTest="restartTest" />
-        <ServiceMessage
-          message="Смените раскладку клавиатуры на английскую"
-          v-if="isLanguageError"
+    <TheHeader />
+    <main class="typing-test">
+      <div class="typing-test__statistic-and-content">
+        <TestStatistic
+          :accuracy="accuracy.toFixed(2)"
+          :printSpeed="String(printSpeed)"
         />
+        <div class="typing-test__text-content text-content">
+          <span
+            class="text-content__letter"
+            v-for="(letter, index) of arrayOfLetters"
+            :key="index + letter"
+            :class="{
+              'text-content__letter_current': index === currentLetterNumber,
+              'text-content__letter_completed': index < currentLetterNumber,
+              'text-content__letter_error':
+                index === currentLetterNumber && isLetterError
+            }"
+          >
+            {{ letter }}
+          </span>
+          <RestartButton @restartTest="restartTest" />
+          <ServiceMessage
+            message="Смените раскладку клавиатуры на английскую"
+            v-if="isLanguageError"
+          />
+        </div>
       </div>
-    </div>
-  </main>
+      <TheKeyboard
+        v-if="seenKeyboard"
+        language="english"
+        :necessaryKey="arrayOfLetters[currentLetterNumber]?.toUpperCase()"
+        :pressedKey="pressedKey?.toUpperCase()"
+      />
+    </main>
+  </div>
 </template>
 
 <style>
 .dialog {
   border: none;
+}
+
+.test-page:focus {
+  outline: none;
 }
 
 .typing-test {
@@ -126,10 +155,6 @@ const restartTest = () => {
   align-items: center;
   flex-grow: 1;
   padding-top: 32px;
-}
-
-.typing-test:focus {
-  outline: none;
 }
 
 .typing-test__text-content {
