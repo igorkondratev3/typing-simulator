@@ -29,4 +29,15 @@ defineProps({
 .service-message_blue {
   background-color: rgb(88, 143, 245);
 }
+
+@media (min-width: 2200px) {
+  .service-message {
+  padding: 0.7vmax;
+  font-size: 1.2vmax;
+  border-radius: 0.4vmax;
+}
+
+}
+
+/*height*/
 </style>

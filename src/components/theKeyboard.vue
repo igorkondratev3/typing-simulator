@@ -140,6 +140,8 @@ const defineLook = (rowIndex, keyIndex, key) => {
   }
 }
 
+
+
 .keyboard__row {
   display: flex;
   flex-wrap: nowrap;
@@ -231,4 +233,30 @@ const defineLook = (rowIndex, keyIndex, key) => {
     top: 2px;
     right: 2px;
   }
+
+  @media (min-width: 2200px) {
+  .keyboard {
+    --button-width: 2.5vmax;
+  }
+  .keyboard__key {
+  border-radius: 0.3vmax;
+  margin-left: 0.05vmax;
+  margin-right: 0.05vmax;
+}
+
+.keyboard {
+  margin-top: 0.5vmax;
+}
+}
+
+@media (min-height: 1200px) {
+  .keyboard {
+    --button-width: 2.5vmax;
+  }
+  .keyboard__key {
+  border-radius: 0.3vmax;
+  margin-left: 0.05vmax;
+  margin-right: 0.05vmax;
+}
+}
 </style>

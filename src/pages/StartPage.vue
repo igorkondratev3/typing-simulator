@@ -73,4 +73,27 @@ import TheHeader from '@/components/TheHeader.vue';
   font-size: 24px;
   background-color: rgb(88, 143, 245);
 }
+
+@media (min-width: 2200px) {
+  .start-page__message, .start-page__button {
+  padding: 0.7vmax;
+  border-radius: 0.4vmax;
+  font-size: 1.2vmax;
+}
+
+.start-page__test-link {
+  margin-top: 0.2vmax;
+}
+
+.start-page__message-and-link {
+  max-width: 30vmax;
+  margin-top: 1.7vmax;
+}
+}
+
+/*@media (min-height: 1200px) {
+  .header {
+    font-size: 1.5vmax;
+  }
+}*/
 </style>

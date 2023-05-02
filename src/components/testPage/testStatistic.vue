@@ -109,4 +109,41 @@ defineProps({
   width: 80px;
 }
 }
+
+@media (min-width: 2200px) {
+  .statistic-parameter__icon {
+    width: 2.3vmax;
+    height: 2.3vmax;
+}
+
+.statistic-parameter__speed {
+  font-size: 1.4vmax;
+  width: 3vmax;
+}
+
+.statistic-parameter__accuracy {
+  font-size: 1.4vmax;
+  width: 5vmax;
+  
+}
+
+.statistic {
+  font-size: 1.5vmax;
+}
+
+.statistic-parameter__header {
+  font-size: 1.2vmax;
+}
+
+.statistic-parameter__units {
+  font-size: 1.3vmax;
+}
+
+}
+
+/*@media (min-height: 1200px) {
+  .header {
+    font-size: 1.5vmax;
+  }
+}*/
 </style>

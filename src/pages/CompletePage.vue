@@ -73,7 +73,6 @@ const printSpeedDeclination = (printSpeed) => {
 }
 
 .complete-message__value {
-  max-width: 600px;
   margin-top: 24px;
   font-size: 24px;
   text-align: justify;
@@ -100,4 +99,26 @@ const printSpeedDeclination = (printSpeed) => {
   color: black;
   background-color: rgb(88, 143, 245);
 }
+
+@media (min-width: 2200px) {
+  .complete-page__message, .complete-page__button, .complete-message__value {
+  padding: 0.7vmax;
+  border-radius: 0.4vmax;
+  font-size: 1.2vmax;
+}
+.complete-page__message-and-link {
+  max-width: 30vmax;
+  margin-top: 1.7vmax;
+}
+
+.complete-page__test-link {
+  margin-top: 0.2vmax;
+}
+}
+
+/*@media (min-height: 1200px) {
+  .header {
+    font-size: 1.5vmax;
+  }
+}*/
 </style>

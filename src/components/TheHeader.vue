@@ -2,10 +2,10 @@
 import { computed } from 'vue';
 const props = defineProps({
   hideHeaderLess550Height: Boolean
-})
-const hideHeader = computed(() => 
+});
+const hideHeader = computed(() =>
   props.hideHeaderLess550Height ? 'none' : 'flex'
-)
+);
 </script>
 
 <template>
@@ -40,6 +40,18 @@ const hideHeader = computed(() =>
 @media (max-height: 550px) {
   .header {
     display: v-bind(hideHeader);
+  }
+}
+
+@media (min-width: 2200px) {
+  .header {
+    font-size: 1.5vmax;
+  }
+}
+
+@media (min-height: 1200px) {
+  .header {
+    font-size: 1.5vmax;
   }
 }
 </style>

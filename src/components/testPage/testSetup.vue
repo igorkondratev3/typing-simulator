@@ -221,8 +221,7 @@ const goToTest = async () => {
   appearance: none;
   width: 20px;
   height: 20px;
-  outline: 1px solid transparent;
-  outline-offset: 2px;
+  outline: none;
   border: 1px solid white;
   border-radius: 4px;
   background: rgb(232, 238, 233);
@@ -264,4 +263,86 @@ const goToTest = async () => {
   outline: 1px solid black;
   outline-offset: 2px;
 }
+
+@media (min-width: 2200px) {
+  .test-setup__start {
+    font-size: 1vmax;
+}
+
+.test-setup {
+  padding: 0.5vmax;
+  border-radius: 0.3vmax;
+}
+
+.test-setup__start {
+  width: 100%;
+  padding: 0.5vmax;
+  border-radius: 0.3vmax;
+}
+
+.setup-parameter__parameter {
+  margin-top: 0.3vmax;
+}
+
+.test-setup__header {
+  margin-bottom: 2vmax;
+}
+
+.test-setup__parameter {
+  margin-bottom: 1.6vmax;
+}
+
+.test-setup__header {
+  font-size: 1.5vmax;
+}
+
+.setup-parameter__header {
+  font-size: 1vmax;
+}
+
+.sentence__value {
+  font-size: 1vmax;  
+}
+
+.sentence__radio {
+  width: 1vmax;
+  height: 1vmax;
+}
+
+.sentences__sentence {
+  margin-right: 0.5vmax;
+  margin-left: 0.5vmax;
+}
+
+.keyboard-visibility {
+  width: 1vmax;
+  height: 1vmax;
+}
+
+.keyboard-visibility:focus::before {
+  width: 0.5vmax;
+  height: 0.5vmax;
+  top: 0.2vmax;
+  left: -0.8vmax;
+}
+
+.keyboard-visibility:checked {
+  background: rgb(66, 63, 63), url('/src/assets/svg/check.svg');
+  background-size: 1.1vmax;
+}
+
+.sentence__radio:focus::after {
+  bottom: -0.8vmax;
+  left: 0.25vmax;
+  width: 0.5vmax;
+  height: 0.5vmax;
+}
+
+}
+
+/*@media (min-height: 1200px) {вставить для высоты
+  .header {
+    font-size: 1.5vmax;
+  }
+}*/
 </style>

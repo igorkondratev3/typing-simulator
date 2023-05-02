@@ -191,7 +191,6 @@ const restartTest = () => {
   border-radius: 16px;
   user-select: none;
   font-size: 24px;
-  line-height: 28px;
   text-align: justify;
   background-color: rgb(253, 240, 222);
 }
@@ -216,6 +215,28 @@ const restartTest = () => {
     padding-bottom: 32px;
   }
 }
+
+@media (min-width: 2200px) {
+  .typing-test__text-content {
+  width: 30vmax;
+  min-height: 10vmax;
+  padding: 0.7vmax;
+  font-size: 1.2vmax;
+  border-radius: 0.4vmax;
+  user-select: none;
+}
+
+.typing-test {
+  margin-top: 2vmax;
+}
+
+}
+
+/*@media (min-height: 1200px) {
+  .header {
+    font-size: 1.5vmax;
+  }
+}*/
 
 .text-content__letter {
   border-radius: 2px;

@@ -46,4 +46,13 @@ defineEmits(['restartTest']);
     transform: translateX(0);
   }
 }
+
+@media (min-width: 2200px) {
+  .restart-button__icon {
+    width: 2.5vmax;
+    height: 2.5vmax;
+  }
+}
+
+/*height*/
 </style>
