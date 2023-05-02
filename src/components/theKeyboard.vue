@@ -5,7 +5,7 @@ const props = defineProps({
   pressedKey: String,
   necessaryKey: String
 });
-//перенести в другой файл
+//перенести в другой файл вместе с функциями
 
 const letters = {
   english: [

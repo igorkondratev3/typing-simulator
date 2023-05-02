@@ -1,14 +1,18 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, defineAsyncComponent } from 'vue';
 import { useRouter } from 'vue-router';
 import TestSetup from '@/components/testPage/testSetup.vue';
 import TestStatistic from '@/components/testPage/testStatistic.vue';
 import RestartButton from '@/components/testPage/restartButton.vue';
-import ServiceMessage from '@/components/serviceMessage.vue';
 import TheHeader from '@/components/TheHeader.vue';
-import TheKeyboard from '@/components/theKeyboard.vue';
 import { checkLanguage } from '@/helpers/testPage.js';
 import { useTestStatistic } from '@/composables/testStatistic.js';
+const TheKeyboard = defineAsyncComponent(() =>
+  import('@/components/theKeyboard.vue')
+);
+const ServiceMessage = defineAsyncComponent(() =>
+  import('@/components/serviceMessage.vue')
+);
 
 const setupModal = ref(null);
 onMounted(() => {

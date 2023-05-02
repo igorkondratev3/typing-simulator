@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import TestPage from '../pages/TestPage.vue';
-import StartPage from '../pages/StartPage.vue';
-import CompletePage from '../pages/CompletePage.vue';
+const TestPage = () => import("@/pages/TestPage.vue");
+const StartPage = () => import("@/pages/StartPage.vue");
+const CompletePage = () => import("@/pages/CompletePage.vue");
 
 const checkComplete = (to, from) => {
   if (from.path !== '/test') return '/';
