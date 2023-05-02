@@ -21,8 +21,10 @@ onMounted(() => {
 
 const arrayOfLetters = ref([]);
 const testPage = ref(null);
-const seenKeyboardLS = JSON.parse(localStorage.getItem('testSetup'))?.seenKeyboard;
-const seenKeyboard = ref(seenKeyboardLS ?? true)
+const seenKeyboardLS = JSON.parse(
+  localStorage.getItem('testSetup')
+)?.seenKeyboard;
+const seenKeyboard = ref(seenKeyboardLS ?? true);
 const goToTest = (text, keyboardVisibility) => {
   seenKeyboard.value = keyboardVisibility;
   arrayOfLetters.value = [...text[0].replaceAll('  ', ' ')]; //текст возвращается с двумя пробелами перед началом следующего предложения
@@ -50,14 +52,14 @@ const {
 const pressedKey = ref('');
 const setPressedKey = (key) => {
   pressedKey.value = key;
-  setTimeout(() => pressedKey.value = '', 50);
-}
+  setTimeout(() => (pressedKey.value = ''), 50);
+};
 
 const checkPressedKey = (event) => {
   if (!checkLanguage(event.key, isLanguageError)) return;
   checkAndStartTest();
 
-  setPressedKey(event.key)
+  setPressedKey(event.key);
 
   if (event.key !== arrayOfLetters.value[currentLetterNumber.value]) {
     if (!isLetterError.value) {

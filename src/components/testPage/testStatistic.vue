@@ -28,7 +28,7 @@ defineProps({
         alt="accuracy"
       />
       <div class="statistic-parameter__value">
-        <p class="statistic-parameter__header">Точночть:</p>
+        <p class="statistic-parameter__header">Точность:</p>
         <div class="statistic-parameter__result">
           <p class="statistic-parameter__accuracy">
             {{ accuracy }}
@@ -76,14 +76,14 @@ defineProps({
 .statistic-parameter__speed {
   width: 50px;
   margin-right: 2px;
-  font-size: 32px;
+  font-size: 28px;
   text-align: center;
 }
 
 .statistic-parameter__accuracy {
   width: 90px;
   margin-right: 2px;
-  font-size: 32px;
+  font-size: 28px;
   text-align: center;
 }
 

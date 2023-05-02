@@ -21,10 +21,13 @@ const goToTest = async () => {
     isGettingText.value = false;
     return;
   }
-  localStorage.setItem('testSetup', JSON.stringify({
-    sentences: sentences.value,
-    seenKeyboard: seenKeyboard.value
-  }));
+  localStorage.setItem(
+    'testSetup',
+    JSON.stringify({
+      sentences: sentences.value,
+      seenKeyboard: seenKeyboard.value
+    })
+  );
   gettingTextMessage.value = '';
   isGettingText.value = false;
   emit('goToTest', textObj.text, seenKeyboard.value);
@@ -34,36 +37,36 @@ const goToTest = async () => {
 <template>
   <div class="dialog__wrapper">
     <div class="dialog__test-setup test-setup">
-      <h3 class="test-setup__header">Настройка параметров</h3>
-      <h5 class="test-setup__sentences-header">
-        Количетво предложений в тексте:
-      </h5>
-      <div class="sentences">
-        <label
-          class="sentences__sentence sentence"
-          v-for="n in 5"
-          :key="n + 'sentences'"
-        >
-          <p class="sentence__value">{{ n }}</p>
-          <input
-            class="sentence__radio"
-            type="radio"
-            name="sentences"
-            :autofocus="n === sentences"
-            :value="n"
-            v-model="sentences"
-          />
-        </label>
+      <h3 class="test-setup__header">Настройка параметров теста</h3>
+      <div class="test-setup__parameter setup-parameter">
+        <h5 class="setup-parameter__header">Количетво предложений в тексте</h5>
+        <div class="setup-parameter__parameter sentences">
+          <label
+            class="sentences__sentence sentence"
+            v-for="n in 5"
+            :key="n + 'sentences'"
+          >
+            <p class="sentence__value">{{ n }}</p>
+            <input
+              class="sentence__radio"
+              type="radio"
+              name="sentences"
+              :autofocus="n === sentences"
+              :value="n"
+              v-model="sentences"
+            />
+          </label>
+        </div>
       </div>
-      <h5 class="test-setup__keyboard-visibility-header">
-        Показывать клавиатуру
-      </h5>
-      <input
-        class="test-setup__keyboard-visibility"
-        type="checkbox"
-        v-model="seenKeyboard"
-        @keyup.enter="seenKeyboard = !seenKeyboard"
-      />
+      <div class="test-setup__parameter setup-parameter">
+        <h5 class="setup-parameter__header">Показывать клавиатуру</h5>
+        <input
+          class="setup-parameter__parameter keyboard-visibility"
+          type="checkbox"
+          v-model="seenKeyboard"
+          @keyup.enter="seenKeyboard = !seenKeyboard"
+        />
+      </div>
       <button
         class="test-setup__start"
         @click="goToTest"
@@ -93,7 +96,7 @@ const goToTest = async () => {
   height: 100vh;
   width: 100vw;
   overflow: auto;
-  background-color: rgba(0, 0, 0, 0.616);
+  background-color: rgba(77, 76, 76, 0.616);
   backdrop-filter: blur(10px);
   overflow: auto;
   scrollbar-width: none;
@@ -112,30 +115,47 @@ const goToTest = async () => {
 }
 
 .dialog__test-setup {
+  margin-bottom: 100px;
+}
+
+.test-setup {
   display: flex;
   flex-direction: column;
-  margin-bottom: 100px;
+  align-items: center;
   padding: 16px;
   border-radius: 8px;
   background-color: rgb(186, 187, 190);
-  align-items: center;
 }
 
 .test-setup__header {
-  margin-bottom: 32px;
+  margin-bottom: 48px;
   font-size: 32px;
   font-weight: 700;
 }
 
-.test-setup__sentences-header {
+.test-setup__parameter {
+  margin-bottom: 32px;
+}
+
+.setup-parameter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.setup-parameter__header {
   font-size: 24px;
+  font-weight: 700;
+}
+
+.setup-parameter__parameter {
+  margin-top: 8px;
 }
 
 .sentences {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  margin-top: 8px;
 }
 
 .sentences__sentence {
@@ -174,13 +194,7 @@ const goToTest = async () => {
   outline: 1px solid white;
 }
 
-.test-setup__keyboard-visibility-header {
-  margin-top: 24px;
-  margin-bottom: 8px;
-  font-size: 24px;
-}
-
-.test-setup__keyboard-visibility {
+.keyboard-visibility {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -194,22 +208,21 @@ const goToTest = async () => {
   transition: background 0.3s linear, border 0.3s linear;
 }
 
-.test-setup__keyboard-visibility:checked {
+.keyboard-visibility:checked {
   background: rgb(66, 63, 63) url('/src/assets/svg/check.svg');
   border: 1px solid rgb(66, 63, 63);
 }
 
-.test-setup__keyboard-visibility:focus {
+.keyboard-visibility:focus {
   outline: 2px solid rgb(66, 63, 63);
 }
 
-.test-setup__keyboard-visibility:checked:focus {
+.keyboard-visibility:checked:focus {
   outline: 2px solid white;
 }
 
 .test-setup__start {
-  width: 200px;
-  margin-top: 32px;
+  width: 100%;
   padding: 16px;
   border: none;
   border-radius: 8px;
