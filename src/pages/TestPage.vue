@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, defineAsyncComponent } from 'vue';
+import { ref, computed, onMounted, defineAsyncComponent } from 'vue';
 import { useRouter } from 'vue-router';
 import TestSetup from '@/components/testPage/testSetup.vue';
 import TestStatistic from '@/components/testPage/testStatistic.vue';
@@ -49,15 +49,32 @@ const {
   resetStatistic
 } = useTestStatistic();
 
+const isCapsEnabled = ref(false);
+const checkCaps = (event) => {
+  isCapsEnabled.value = !event.getModifierState('CapsLock');
+  setPressedKey('CAPS');
+};
+
 const pressedKey = ref('');
+const formattedPressedKey = computed(() => {
+  if (pressedKey.value === 'ShiftLeft') return 'SHIFT-L';
+  if (pressedKey.value === 'ShiftRight') return 'SHIFT-R';
+  return pressedKey.value.toUpperCase();
+});
 const setPressedKey = (key) => {
   pressedKey.value = key;
   setTimeout(() => (pressedKey.value = ''), 50);
 };
 
+let first = true;
+
 const checkPressedKey = (event) => {
+  if (event.key === ' ') event.preventDefault(); //чтобы не прокручивалось вниз
   if (!checkLanguage(event.key, isLanguageError)) return;
-  checkAndStartTest();
+  if (first) isCapsEnabled.value = event.getModifierState('CapsLock'); 
+
+  checkAndStartTest(); //сюда тоже isfirst
+  first = false;
 
   setPressedKey(event.key);
 
@@ -105,8 +122,10 @@ const restartTest = () => {
     ref="testPage"
     tabindex="1"
     @keypress="checkPressedKey"
-    @keydown.tab.prevent=""
-    @keydown.space.prevent="checkPressedKey({ key: ' ' })"
+    @keydown.tab.prevent="checkPressedKey"
+    @keydown.backspace="setPressedKey('BS')"
+    @keydown.caps-lock="checkCaps"
+    @keydown.shift.exact="setPressedKey($event.code)"
   >
     <TheHeader />
     <main class="typing-test">
@@ -140,7 +159,8 @@ const restartTest = () => {
         v-if="seenKeyboard"
         language="english"
         :necessaryKey="arrayOfLetters[currentLetterNumber]?.toUpperCase()"
-        :pressedKey="pressedKey?.toUpperCase()"
+        :pressedKey="formattedPressedKey"
+        :isCapsEnabled="isCapsEnabled"
       />
     </main>
   </div>
@@ -171,6 +191,7 @@ const restartTest = () => {
   border-radius: 16px;
   user-select: none;
   font-size: 24px;
+  line-height: 28px;
   text-align: justify;
   background-color: rgb(253, 240, 222);
 }

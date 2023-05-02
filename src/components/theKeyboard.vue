@@ -3,32 +3,33 @@ import { computed } from 'vue';
 const props = defineProps({
   language: String,
   pressedKey: String,
-  necessaryKey: String
+  necessaryKey: String,
+  isCapsEnabled: Boolean
 });
-//перенести в другой файл вместе с функциями
+//перенести в другой файл
 
 const letters = {
   english: [
     ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'BS'],
     ['TAB', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '[', ']', '\\'],
     ['CAPS', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';', "'", 'ENTER'],
-    ['SHIFT', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/', 'SHIFT'],
+    ['SHIFT-L', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/', 'SHIFT-R'],
     [' ']
   ],
   russian: [
     ['Ё', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'BS'],
     ['TAB', 'Й', 'Ц', 'У', 'К', 'Е', 'Н', 'Г', 'Ш', 'Щ', 'З', 'Х', 'Ъ', '\\'],
     ['CAPS', 'Ф', 'Ы', 'В', 'А', 'П', 'Р', 'О', 'Л', 'Д', 'Ж', 'Э', 'ENTER'],
-    ['SHIFT', 'Я', 'Ч', 'С', 'М', 'И', 'Т', 'Ь', 'Б', 'Ю', '.', 'SHIFT'],
+    ['SHIFT-L', 'Я', 'Ч', 'С', 'М', 'И', 'Т', 'Ь', 'Б', 'Ю', '.', 'SHIFT-R'],
     [' ']
   ]
 };
 
 const colors = [
-  ['`', 'v', 'v', 't', 'g', 'y', 'y', 'o', 'g', 't', 'v', 'v', 'v', 'BS'],
-  ['TAB', 'v', 't', 'g', 'y', 'y', 'o', 'o', 'g', 't', 'v', 'v', 'v', '\\'],
-  ['CAPS', 'v', 't', 'g', 'y', 'y', 'o', 'o', 'g', 't', 'v', 'v', 'ENTER'],
-  ['SHIFT', 'v', 't', 'g', 'y', 'y', 'o', 'o', 'g', 't', 'v', 'SHIFT'],
+  ['`', 'v', 'v', 'g', 't', 'y', 'y', 'o', 't', 'g', 'v', 'v', 'v', 'BS'],
+  ['TAB', 'v', 'g', 't', 'y', 'y', 'o', 'o', 't', 'g', 'v', 'v', 'v', '\\'],
+  ['CAPS', 'v', 'g', 't', 'y', 'y', 'o', 'o', 't', 'g', 'v', 'v', 'ENTER'],
+  ['SHIFT-L', 'v', 'g', 't', 'y', 'y', 'o', 'o', 't', 'g', 'v', 'SHIFT-R'],
   [' ']
 ];
 
@@ -39,31 +40,34 @@ const defineLook = (rowIndex, keyIndex, key) => {
 
   switch (key) {
     case '`':
-      look['keyboard__key_half'] = true;
+      look['keyboard__key_quarter-to'] = true;
       break;
     case 'Ё':
-      look['keyboard__key_half'] = true;
+      look['keyboard__key_quarter-to'] = true;
       break;
     case 'TAB':
-      look['keyboard__key_one-quat'] = true;
+      look['keyboard__key_one-quarter'] = true;
       break;
     case '\\':
-      look['keyboard__key_one-quat'] = true;
+      look['keyboard__key_one-quarter'] = true;
       break;
     case 'CAPS':
       look['keyboard__key_one-half'] = true;
       break;
     case 'BS':
-      look['keyboard__key_double'] = true;
+      look['keyboard__key_quarter-to-two'] = true;
       break;
     case 'ENTER':
       look['keyboard__key_double'] = true;
       break;
-    case 'SHIFT':
-      look['keyboard__key_two-quat'] = true;
+    case 'SHIFT-L':
+      look['keyboard__key_two-quarter'] = true;
+      break;
+    case 'SHIFT-R':
+      look['keyboard__key_two-quarter'] = true;
       break;
     case ' ':
-      look['keyboard__key_nine-quat'] = true;
+      look['keyboard__key_nine-quarter'] = true;
       break;
   }
 
@@ -105,6 +109,7 @@ const defineLook = (rowIndex, keyIndex, key) => {
           Object.assign({}, defineLook(rowIndex, keyIndex, key), {
             'keyboard__necessary-key': props.necessaryKey === key,
             'keyboard__pressed-key': props.pressedKey === key,
+            'keyboard__caps-enabled': props.isCapsEnabled && key === 'CAPS'
           })
         "
       >
@@ -116,6 +121,7 @@ const defineLook = (rowIndex, keyIndex, key) => {
 
 <style>
 .keyboard {
+  --button-width: 50px;
   margin-top: 16px;
   display: flex;
   flex-direction: column;
@@ -144,33 +150,37 @@ const defineLook = (rowIndex, keyIndex, key) => {
   overflow: hidden;
   margin-left: 2px;
   margin-right: 2px;
-  width: 50px;
-  height: 50px;
-  font-size: calc(50px * 0.35);
+  width: var(--button-width);
+  height: var(--button-width);
+  font-size: calc(var(--button-width) * 0.35);
 }
 
-.keyboard__key_half {
-  width: calc(50px * 0.5);
+.keyboard__key_quarter-to {
+  width: calc(var(--button-width) * 0.75);
 }
 
-.keyboard__key_one-quat {
-  width: calc(50px * 1.25);
+.keyboard__key_one-quarter {
+  width: calc(var(--button-width) * 1.25);
 }
 
 .keyboard__key_one-half {
-  width: calc(50px * 1.5);
+  width: calc(var(--button-width) * 1.5);
+}
+
+.keyboard__key_quarter-to-two {
+  width: calc(var(--button-width) * 1.75);
 }
 
 .keyboard__key_double {
-  width: calc(50px * 2);
+  width: calc(var(--button-width) * 2);
 }
 
-.keyboard__key_two-quat {
-  width: calc(50px * 2.25);
+.keyboard__key_two-quarter {
+  width: calc(var(--button-width) * 2.25);
 }
 
-.keyboard__key_nine-quat {
-  width: calc(50px * 9.25);
+.keyboard__key_nine-quarter {
+  width: calc(var(--button-width) * 9.25);
 }
 
 .keyboard__key_violet {
@@ -186,11 +196,11 @@ const defineLook = (rowIndex, keyIndex, key) => {
 }
 
 .keyboard__key_yellow {
-  background-color: rgb(240, 209, 69, 0.534);
+  background-color: rgba(247, 244, 67, 0.534);
 }
 
 .keyboard__key_orange {
-  background-color: rgb(240, 180, 69, 0.534);
+  background-color: rgba(250, 198, 100, 0.534);
 }
 
 .keyboard__necessary-key {
@@ -201,4 +211,11 @@ const defineLook = (rowIndex, keyIndex, key) => {
 .keyboard__pressed-key {
   background-color: rgba(92, 91, 91, 0.5);
 }
+
+.keyboard__caps-enabled::after {
+    position: absolute;
+    content: '*';
+    top: 2px;
+    right: 2px;
+  }
 </style>

@@ -14,7 +14,7 @@ defineProps({
         alt="speed"
       />
       <div class="statistic-parameter__value">
-        <h6 class="statistic-parameter__header">Скорость:</h6>
+        <h4 class="statistic-parameter__header">Скорость:</h4>
         <div class="statistic-parameter__result">
           <p class="statistic-parameter__speed">{{ printSpeed }}</p>
           <p class="statistic-parameter__units">зн/мин</p>
@@ -28,7 +28,7 @@ defineProps({
         alt="accuracy"
       />
       <div class="statistic-parameter__value">
-        <p class="statistic-parameter__header">Точность:</p>
+        <h4 class="statistic-parameter__header">Точность:</h4>
         <div class="statistic-parameter__result">
           <p class="statistic-parameter__accuracy">
             {{ accuracy }}
