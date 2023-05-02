@@ -71,7 +71,7 @@ let first = true;
 const checkPressedKey = (event) => {
   if (event.key === ' ') event.preventDefault(); //чтобы не прокручивалось вниз
   if (!checkLanguage(event.key, isLanguageError)) return;
-  if (first) isCapsEnabled.value = event.getModifierState('CapsLock'); 
+  if (first) isCapsEnabled.value = event.getModifierState('CapsLock');
 
   checkAndStartTest(); //сюда тоже isfirst
   first = false;
@@ -127,7 +127,7 @@ const restartTest = () => {
     @keydown.caps-lock="checkCaps"
     @keydown.shift.exact="setPressedKey($event.code)"
   >
-    <TheHeader />
+    <TheHeader :hideHeaderLess550Height="seenKeyboard" />
     <main class="typing-test">
       <div class="typing-test__statistic-and-content">
         <TestStatistic
@@ -180,7 +180,7 @@ const restartTest = () => {
   flex-direction: column;
   align-items: center;
   flex-grow: 1;
-  padding-top: 32px;
+  margin-top: 32px;
 }
 
 .typing-test__text-content {
@@ -194,6 +194,27 @@ const restartTest = () => {
   line-height: 28px;
   text-align: justify;
   background-color: rgb(253, 240, 222);
+}
+
+@media (max-width: 700px) {
+  .typing-test__text-content {
+    width: 400px;
+  }
+  .typing-test {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 501px) {
+  .typing-test__text-content {
+    width: 320px;
+  }
+}
+
+@media (max-width: 415px) {
+  .typing-test__text-content {
+    padding-bottom: 32px;
+  }
 }
 
 .text-content__letter {

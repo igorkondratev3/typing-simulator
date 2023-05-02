@@ -128,6 +128,18 @@ const defineLook = (rowIndex, keyIndex, key) => {
   justify-content: space-between;
 }
 
+@media(max-width: 820px) {
+  .keyboard {
+    --button-width: 35px;
+  }
+}
+
+@media(max-width: 600px) {
+  .keyboard {
+    --button-width: 20px;
+  }
+}
+
 .keyboard__row {
   display: flex;
   flex-wrap: nowrap;
@@ -153,6 +165,7 @@ const defineLook = (rowIndex, keyIndex, key) => {
   width: var(--button-width);
   height: var(--button-width);
   font-size: calc(var(--button-width) * 0.35);
+  user-select: none;
 }
 
 .keyboard__key_quarter-to {

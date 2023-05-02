@@ -24,7 +24,7 @@ const printSpeedDeclination = (printSpeed) => {
 
 <template>
   <div class="complete-page page-wrapper">
-    <TheHeader />
+    <TheHeader :hideHeaderLess550Height="false"/>
     <main class="complete-page__main">
       <div class="complete-page__message-and-link">
         <div class="complete-page__message complete-message">
@@ -55,16 +55,18 @@ const printSpeedDeclination = (printSpeed) => {
   flex-grow: 1;
 }
 
-.start-page__message-and-link {
-  display: flex;
-  flex-direction: column;/*попробовать убрать*/
-  width: 600px; /*max width*/
+.complete-page__message-and-link {
+  max-width: 600px;
   margin-top: 32px;
 }
 
+@media (max-width: 600px) {
+  .complete-page__message-and-link {
+    margin-top: 0;
+  }
+}
+
 .complete-page__message {
-  width: 600;
-  margin-top: 32px;
   padding: 16px;
   border-radius: 8px;
   background-color: rgba(88, 143, 245, 0.459);

@@ -95,6 +95,8 @@ const goToTest = async () => {
   align-items: center;
   height: 100vh;
   width: 100vw;
+  padding-left: 8px;
+  padding-right: 8px;
   overflow: auto;
   background-color: rgba(77, 76, 76, 0.616);
   backdrop-filter: blur(10px);
@@ -114,6 +116,13 @@ const goToTest = async () => {
   display: none;
 }
 
+@media (max-height: 600px) {
+  .dialog__wrapper {
+    justify-content: flex-start;
+    padding-top: 8px;
+  }
+}
+
 .dialog__test-setup {
   margin-bottom: 100px;
 }
@@ -131,7 +140,8 @@ const goToTest = async () => {
   margin-bottom: 48px;
   font-size: 32px;
   font-weight: 700;
-  letter-spacing: .05em;
+  letter-spacing: 0.05em;
+  text-align: center;
 }
 
 .test-setup__parameter {
@@ -147,7 +157,8 @@ const goToTest = async () => {
 .setup-parameter__header {
   font-size: 24px;
   font-weight: 700;
-  letter-spacing: .05em;
+  letter-spacing: 0.05em;
+  text-align: center;
 }
 
 .setup-parameter__parameter {
@@ -189,16 +200,16 @@ const goToTest = async () => {
 }
 
 .sentence__radio:focus::after {
-    position: absolute;
-    content: '';
-    bottom: -20px;
-    left: 4px;
-    width: 12px;
-    height: 12px;
-    border: solid black;
-    border-width: 0 2px 2px 0;
-    transform: rotate(-135deg);
-  }
+  position: absolute;
+  content: '';
+  bottom: -20px;
+  left: 4px;
+  width: 12px;
+  height: 12px;
+  border: solid black;
+  border-width: 0 2px 2px 0;
+  transform: rotate(-135deg);
+}
 
 .sentence__radio:checked {
   background-color: rgb(66, 63, 63);
@@ -219,21 +230,21 @@ const goToTest = async () => {
 }
 
 .keyboard-visibility:checked {
-  background: rgb(66, 63, 63) url('/src/assets/svg/check.svg'); 
+  background: rgb(66, 63, 63) url('/src/assets/svg/check.svg');
   border: 1px solid rgb(66, 63, 63);
 }
 
 .keyboard-visibility:focus::before {
-    position: absolute;
-    content: '';
-    top: 3px;
-    left: -20px;
-    width: 12px;
-    height: 12px;
-    border: solid black;
-    border-width: 0 2px 2px 0;
-    transform: rotate(-45deg);
-  }
+  position: absolute;
+  content: '';
+  top: 3px;
+  left: -20px;
+  width: 12px;
+  height: 12px;
+  border: solid black;
+  border-width: 0 2px 2px 0;
+  transform: rotate(-45deg);
+}
 
 .test-setup__start {
   width: 100%;

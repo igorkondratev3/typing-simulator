@@ -92,4 +92,21 @@ defineProps({
   align-items: center;
   font-size: 20px;
 }
+
+@media (max-width: 501px) {
+  .statistic-parameter__icon {
+  width: 24px;
+  height: 24px;
+}
+
+.statistic-parameter__speed {
+  font-size: 24px;
+  width: 45px;
+}
+
+.statistic-parameter__accuracy {
+  font-size: 24px;
+  width: 80px;
+}
+}
 </style>

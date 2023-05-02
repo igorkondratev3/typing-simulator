@@ -10,7 +10,7 @@ defineEmits(['restartTest']);
     @click="$emit('restartTest')"
   >
     <img
-      class="restart-botton__icon"
+      class="restart-button__icon"
       src="/src/assets/svg/restart.svg"
       alt="restart"
     />
@@ -32,5 +32,18 @@ defineEmits(['restartTest']);
   width: 48px;
   height: 48px;
   margin-right: 8px;
+}
+
+@media (max-width: 501px) {
+  .restart-button__icon {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+@media (max-width: 415px) {
+  .restart-button {
+    transform: translateX(0);
+  }
 }
 </style>

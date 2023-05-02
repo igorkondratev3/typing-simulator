@@ -6,7 +6,7 @@ import TheHeader from '@/components/TheHeader.vue';
 
 <template>
   <div class="start-page page-wrapper">
-    <TheHeader />
+    <TheHeader :hideHeaderLess550Height="false"/>
     <main class="start-page__main">
       <div class="start-page__message-and-link">
         <p class="start-page__message">
@@ -35,10 +35,14 @@ import TheHeader from '@/components/TheHeader.vue';
 }
 
 .start-page__message-and-link {
-  display: flex;
-  flex-direction: column;/*попробовать убрать*/
-  width: 600px; /*max width*/
+  max-width: 600px;
   margin-top: 32px;
+}
+
+@media (max-width: 600px) {
+  .start-page__message-and-link {
+    margin-top: 0;
+  }
 }
 
 .start-page__message {
@@ -67,7 +71,6 @@ import TheHeader from '@/components/TheHeader.vue';
   border-radius: 8px;
   cursor: pointer;
   font-size: 24px;
-  color: black;
   background-color: rgb(88, 143, 245);
 }
 </style>
