@@ -1,14 +1,18 @@
 <script setup>
-import { ref, computed, onMounted, defineAsyncComponent } from 'vue';
+import { ref, onMounted, defineAsyncComponent } from 'vue';
 import { useRouter } from 'vue-router';
+import {
+  checkLanguage,
+  showServiceMessage,
+  preventScrolling
+} from '@/helpers/testPage.js';
+import { useTestStatistic } from '@/composables/testStatistic.js';
 import TestSetup from '@/components/testPage/testSetup.vue';
 import TestStatistic from '@/components/testPage/testStatistic.vue';
 import RestartButton from '@/components/testPage/restartButton.vue';
 import TheHeader from '@/components/TheHeader.vue';
-import { checkLanguage } from '@/helpers/testPage.js';
-import { useTestStatistic } from '@/composables/testStatistic.js';
 const TheKeyboard = defineAsyncComponent(() =>
-  import('@/components/theKeyboard.vue')
+  import('@/components/keyboard/theKeyboard.vue')
 );
 const ServiceMessage = defineAsyncComponent(() =>
   import('@/components/serviceMessage.vue')
@@ -19,16 +23,16 @@ onMounted(() => {
   setupModal.value.showModal();
 });
 
-const arrayOfLetters = ref([]);
 const testPage = ref(null);
-const seenKeyboardLS = JSON.parse(
+const letters = ref([]);
+const keyboardVisibilityLS = JSON.parse(
   localStorage.getItem('testSetup')
-)?.seenKeyboard;
-const seenKeyboard = ref(seenKeyboardLS ?? true);
-const goToTest = (text, keyboardVisibility) => {
-  seenKeyboard.value = keyboardVisibility;
-  arrayOfLetters.value = [...text[0].replaceAll('  ', ' ')]; //текст возвращается с двумя пробелами перед началом следующего предложения
-  calcAccuracyStep(arrayOfLetters.value.length);
+)?.keyboardVisibility;
+const keyboardVisibility = ref(keyboardVisibilityLS ?? true);
+const goToTest = (text, isKeyboardSeen) => {
+  keyboardVisibility.value = isKeyboardSeen;
+  letters.value = [...text[0].replaceAll('  ', ' ')]; //текст возвращается с двумя пробелами перед началом следующего предложения
+  calcAccuracyStep(letters.value.length);
   setupModal.value.close();
   testPage.value.focus();
 };
@@ -41,60 +45,60 @@ const {
   printSpeed,
   accuracy,
   increaseError,
-  checkAndStartTest,
-  stopTest,
+  startTest,
+  finishTest,
   calcAccuracyStep,
   calcAccuracy,
   normalizeAccuracy,
   resetStatistic
 } = useTestStatistic();
 
-const isCapsEnabled = ref(false);
-const checkCaps = (event) => {
-  isCapsEnabled.value = !event.getModifierState('CapsLock');
-  setPressedKey('CAPS');
-};
-
 const pressedKey = ref('');
-const formattedPressedKey = computed(() => {
-  if (pressedKey.value === 'ShiftLeft') return 'SHIFT-L';
-  if (pressedKey.value === 'ShiftRight') return 'SHIFT-R';
-  return pressedKey.value.toUpperCase();
-});
 const setPressedKey = (key) => {
   pressedKey.value = key;
   setTimeout(() => (pressedKey.value = ''), 50);
 };
 
-let first = true;
+const isCapsEnabled = ref(false);
+const changeCaps = (event) => {
+  isCapsEnabled.value = !event.getModifierState('CapsLock');
+  setPressedKey('CAPS');
+};
+
+let isTestStarted = false;
 
 const checkPressedKey = (event) => {
-  if (event.key === ' ') event.preventDefault(); //чтобы не прокручивалось вниз
-  if (!checkLanguage(event.key, isLanguageError)) return;
-  if (first) isCapsEnabled.value = event.getModifierState('CapsLock');
+  preventScrolling(event);
+  if (!checkLanguage(event.key, isLanguageError)) {
+    showServiceMessage(isLanguageError);
+    return;
+  }
 
-  checkAndStartTest(); //сюда тоже isfirst
-  first = false;
+  if (!isTestStarted) {
+    isCapsEnabled.value = event.getModifierState('CapsLock');
+    startTest();
+    isTestStarted = true;
+  }
 
   setPressedKey(event.key);
 
-  if (event.key !== arrayOfLetters.value[currentLetterNumber.value]) {
+  if (event.key !== letters.value[currentLetterNumber.value]) {
     if (!isLetterError.value) {
       calcAccuracy();
-      normalizeAccuracy(arrayOfLetters.value.length);
+      normalizeAccuracy(letters.value.length);
       increaseError();
     }
     isLetterError.value = true;
   }
 
-  if (event.key === arrayOfLetters.value[currentLetterNumber.value]) {
+  if (event.key === letters.value[currentLetterNumber.value]) {
     currentLetterNumber.value++;
     isLetterError.value = false;
   }
 
-  if (currentLetterNumber.value === arrayOfLetters.value.length) {
-    stopTest();
-    normalizeAccuracy(arrayOfLetters.value.length);
+  if (currentLetterNumber.value === letters.value.length) {
+    finishTest();
+    normalizeAccuracy(letters.value.length);
     router.push({
       name: 'CompletePage',
       query: {
@@ -107,6 +111,7 @@ const checkPressedKey = (event) => {
 
 const restartTest = () => {
   resetStatistic();
+  isTestStarted = false;
   isLetterError.value = false;
   pressedKey.value = '';
   setupModal.value.showModal();
@@ -124,10 +129,13 @@ const restartTest = () => {
     @keypress="checkPressedKey"
     @keydown.tab.prevent="checkPressedKey"
     @keydown.backspace="setPressedKey('BS')"
-    @keydown.caps-lock="checkCaps"
+    @keydown.caps-lock="changeCaps"
     @keydown.shift.exact="setPressedKey($event.code)"
   >
-    <TheHeader :hideHeaderLess550Height="seenKeyboard" />
+    <TheHeader
+      :hideHeaderHeightLess600="keyboardVisibility"
+      :toHomePageVisibility="true"
+    />
     <main class="typing-test">
       <div class="typing-test__statistic-and-content">
         <TestStatistic
@@ -137,7 +145,7 @@ const restartTest = () => {
         <div class="typing-test__text-content text-content">
           <span
             class="text-content__letter"
-            v-for="(letter, index) of arrayOfLetters"
+            v-for="(letter, index) of letters"
             :key="index + letter"
             :class="{
               'text-content__letter_current': index === currentLetterNumber,
@@ -156,10 +164,10 @@ const restartTest = () => {
         </div>
       </div>
       <TheKeyboard
-        v-if="seenKeyboard"
+        v-if="keyboardVisibility"
         language="english"
-        :necessaryKey="arrayOfLetters[currentLetterNumber]?.toUpperCase()"
-        :pressedKey="formattedPressedKey"
+        :necessaryKey="letters[currentLetterNumber]"
+        :pressedKey="pressedKey"
         :isCapsEnabled="isCapsEnabled"
       />
     </main>

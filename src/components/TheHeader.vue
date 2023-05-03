@@ -1,15 +1,25 @@
 <script setup>
 import { computed } from 'vue';
 const props = defineProps({
-  hideHeaderLess550Height: Boolean
-}); //поменять название
+  hideHeaderHeightLess600: Boolean,
+  toHomePageVisibility: Boolean
+});
+
 const hideHeader = computed(() =>
-  props.hideHeaderLess550Height ? 'none' : 'flex'
+  props.hideHeaderHeightLess600 ? 'none' : 'flex'
 );
 </script>
 
 <template>
   <header class="header">
+    <RouterLink
+      v-if="toHomePageVisibility"
+      class="to-home-page"
+      to="/"
+      tabindex="-1"
+    >
+      На главную
+    </RouterLink>
     <h1>Тренажер слепой печати</h1>
   </header>
 </template>
@@ -23,6 +33,16 @@ const hideHeader = computed(() =>
   font-size: calc(var(--base) * 0.32);
   text-align: center;
   user-select: none;
+}
+
+.to-home-page {
+  position: absolute;
+  left: 0;
+  top: 0;
+  text-decoration: none;
+  font-size: calc(var(--base) * 0.16);
+  font-weight: 700;
+  color: black;
 }
 
 @media (max-width: 820px) {

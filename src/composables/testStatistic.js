@@ -1,32 +1,30 @@
-import { ref } from 'vue';
+import { ref, onUnmounted } from 'vue';
 
 export const useTestStatistic = () => {
   const currentLetterNumber = ref(0);
   const printSpeed = ref(0);
   const accuracy = ref(100);
-  let letterErrorCount = 0;
+  let errorCount = 0;
   let startPrintTime = 0;
   let printSpeedCalcInterval;
   let accuracyStep = 0;
 
-  const checkAndStartTest = () => {
-    if (!startPrintTime) {
-      startPrintTime = Date.now();
-      printSpeedCalcInterval = setInterval(() => {
-        printSpeed.value = Math.round(
-          currentLetterNumber.value /
-            ((Date.now() - startPrintTime) / 1000 / 60)
-        );
-      }, 1000);
-    }
+  const startTest = () => {
+    startPrintTime = Date.now();
+    printSpeedCalcInterval = setInterval(() => {
+      printSpeed.value = Math.round(
+        currentLetterNumber.value / ((Date.now() - startPrintTime) / 1000 / 60)
+      );
+    }, 1000);
   };
 
-  const stopTest = () => {
+  const finishTest = () => {
     clearInterval(printSpeedCalcInterval);
     printSpeed.value = Math.round(
       currentLetterNumber.value / ((Date.now() - startPrintTime) / 1000 / 60)
     );
   };
+  onUnmounted(() => clearInterval(printSpeedCalcInterval));
 
   const calcAccuracyStep = (numberOfLetters) =>
     (accuracyStep = 100 / numberOfLetters);
@@ -35,17 +33,17 @@ export const useTestStatistic = () => {
 
   const normalizeAccuracy = (numberOfLetters) => {
     if (accuracy.value < 0) accuracy.value = 0;
-    if (letterErrorCount === numberOfLetters) accuracy.value = 0;
+    if (errorCount === numberOfLetters) accuracy.value = 0;
   };
 
-  const increaseError = () => letterErrorCount++;
+  const increaseError = () => errorCount++;
 
   const resetStatistic = () => {
     clearInterval(printSpeedCalcInterval);
     currentLetterNumber.value = 0;
     printSpeed.value = 0;
     accuracy.value = 100;
-    letterErrorCount = 0;
+    errorCount = 0;
     startPrintTime = 0;
     printSpeedCalcInterval = undefined;
     accuracyStep = 0;
@@ -56,8 +54,8 @@ export const useTestStatistic = () => {
     currentLetterNumber,
     accuracy,
     increaseError,
-    checkAndStartTest,
-    stopTest,
+    startTest,
+    finishTest,
     calcAccuracyStep,
     calcAccuracy,
     normalizeAccuracy,

@@ -1,12 +1,12 @@
 <script setup>
 import { RouterLink } from 'vue-router';
-import TheKeyboard from '@/components/theKeyboard.vue';
+import TheKeyboard from '@/components/keyboard/theKeyboard.vue';
 import TheHeader from '@/components/TheHeader.vue';
 </script>
 
 <template>
   <div class="start-page page-wrapper">
-    <TheHeader :hideHeaderLess550Height="false" />
+    <TheHeader :hideHeaderHeightLess600="false" :toHomePageVisibility="false" />
     <main class="start-page__main">
       <div class="start-page__message-and-link">
         <p class="start-page__message">

@@ -1,7 +1,7 @@
 <script setup>
 import { RouterLink } from 'vue-router';
 import TestStatistic from '@/components/testPage/testStatistic.vue';
-import TheKeyboard from '@/components/theKeyboard.vue';
+import TheKeyboard from '@/components/keyboard/theKeyboard.vue';
 import TheHeader from '@/components/TheHeader.vue';
 
 defineProps({
@@ -24,7 +24,7 @@ const printSpeedDeclination = (printSpeed) => {
 
 <template>
   <div class="complete-page page-wrapper">
-    <TheHeader :hideHeaderLess550Height="false" />
+    <TheHeader :hideHeaderHeightLess600="false" :toHomePageVisibility="true" />
     <main class="complete-page__main">
       <div class="complete-page__message-and-link">
         <div class="complete-page__message complete-message">

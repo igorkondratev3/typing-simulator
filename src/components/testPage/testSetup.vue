@@ -6,31 +6,30 @@ import ServiceMessage from '@/components/serviceMessage.vue';
 const emit = defineEmits(['goToTest']);
 
 const testSetupLS = JSON.parse(localStorage.getItem('testSetup'));
-
 const sentences = ref(testSetupLS?.sentences || 3);
-const seenKeyboard = ref(testSetupLS?.seenKeyboard ?? true);
+const keyboardVisibility = ref(testSetupLS?.keyboardVisibility ?? true);
 const isGettingText = ref(false);
-const gettingTextMessage = ref('');
+const serviceMessage = ref('');
 
 const goToTest = async () => {
   isGettingText.value = true;
-  gettingTextMessage.value = 'Загружаем текст';
+  serviceMessage.value = 'Загружаем текст';
   const textObj = await getText(sentences.value);
   if (textObj.error) {
-    gettingTextMessage.value = textObj.error;
+    serviceMessage.value = textObj.error;
     isGettingText.value = false;
     return;
   }
-  localStorage.setItem(
-    'testSetup',
-    JSON.stringify({
-      sentences: sentences.value,
-      seenKeyboard: seenKeyboard.value
-    })
-  );
-  gettingTextMessage.value = '';
+
+  const testSetup = {
+    sentences: sentences.value,
+    keyboardVisibility: keyboardVisibility.value
+  };
+  localStorage.setItem('testSetup', JSON.stringify(testSetup));
+
+  serviceMessage.value = '';
   isGettingText.value = false;
-  emit('goToTest', textObj.text, seenKeyboard.value);
+  emit('goToTest', textObj.text, keyboardVisibility.value);
 };
 </script>
 
@@ -63,8 +62,8 @@ const goToTest = async () => {
         <input
           class="setup-parameter__parameter keyboard-visibility"
           type="checkbox"
-          v-model="seenKeyboard"
-          @keyup.enter="seenKeyboard = !seenKeyboard"
+          v-model="keyboardVisibility"
+          @keyup.enter="keyboardVisibility = !keyboardVisibility"
         />
       </label>
       <button
@@ -75,8 +74,8 @@ const goToTest = async () => {
         Начать
       </button>
       <ServiceMessage
-        v-show="gettingTextMessage"
-        :message="gettingTextMessage"
+        v-show="serviceMessage"
+        :message="serviceMessage"
         :class="{ 'service-message_blue': isGettingText }"
       />
     </div>
