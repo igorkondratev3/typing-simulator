@@ -15,7 +15,7 @@ export const checkLanguage = (letter, seenLanguageError) => {
   if ((letter >= 'А' && letter <= 'я') || letter === 'ё' || letter === 'Ё') {
     if (!seenLanguageError.value) {
       seenLanguageError.value = true;
-      setTimeout(() => (seenLanguageError.value = false), 3000);
+      setTimeout(() => (seenLanguageError.value = false), 2500);
     }
     return false;
   }

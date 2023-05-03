@@ -121,33 +121,19 @@ const defineLook = (rowIndex, keyIndex, key) => {
 
 <style>
 .keyboard {
-  --button-width: 50px;
-  margin-top: 16px;
+  --button-width: calc(var(--base) * 0.5);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  margin-top: calc(var(--base) * 0.16);
 }
-
-@media(max-width: 820px) {
-  .keyboard {
-    --button-width: 35px;
-  }
-}
-
-@media(max-width: 600px) {
-  .keyboard {
-    --button-width: 20px;
-  }
-}
-
-
 
 .keyboard__row {
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-between;
-  margin-top: 2px;
-  margin-bottom: 2px;
+  margin-top: calc(var(--base) * 0.02);
+  margin-bottom: calc(var(--base) * 0.02);
 }
 
 .keyboard__row_center {
@@ -155,19 +141,19 @@ const defineLook = (rowIndex, keyIndex, key) => {
 }
 
 .keyboard__key {
-  background-color: rgba(199, 211, 207, 0.534);
   display: flex;
   justify-content: center;
   align-items: center;
-  text-align: center;
-  border-radius: 8px;
-  overflow: hidden;
-  margin-left: 2px;
-  margin-right: 2px;
   width: var(--button-width);
   height: var(--button-width);
+  margin-left: calc(var(--base) * 0.02);
+  margin-right: calc(var(--base) * 0.02);
+  border-radius: calc(var(--base) * 0.08);
+  overflow: hidden;
   font-size: calc(var(--button-width) * 0.35);
+  text-align: center;
   user-select: none;
+  background-color: rgba(199, 211, 207, 0.534);
 }
 
 .keyboard__key_quarter-to {
@@ -219,8 +205,8 @@ const defineLook = (rowIndex, keyIndex, key) => {
 }
 
 .keyboard__necessary-key {
-  outline: 1px solid black;
-  outline-offset: 2px;
+  outline: calc(var(--base) * 0.01) solid black;
+  outline-offset: calc(var(--base) * 0.02);
 }
 
 .keyboard__pressed-key {
@@ -228,35 +214,21 @@ const defineLook = (rowIndex, keyIndex, key) => {
 }
 
 .keyboard__caps-enabled::after {
-    position: absolute;
-    content: '*';
-    top: 2px;
-    right: 2px;
-  }
+  position: absolute;
+  content: '*';
+  top: calc(var(--base) * 0.02);
+  right: calc(var(--base) * 0.02);
+}
 
-  @media (min-width: 2200px) {
+@media (max-width: 820px) {
   .keyboard {
-    --button-width: 2.5vmax;
+    --button-width: calc(var(--base) * 0.35);
   }
-  .keyboard__key {
-  border-radius: 0.3vmax;
-  margin-left: 0.05vmax;
-  margin-right: 0.05vmax;
 }
 
-.keyboard {
-  margin-top: 0.5vmax;
-}
-}
-
-@media (min-height: 1200px) {
+@media (max-width: 600px) {
   .keyboard {
-    --button-width: 2.5vmax;
+    --button-width: calc(var(--base) * 0.2);
   }
-  .keyboard__key {
-  border-radius: 0.3vmax;
-  margin-left: 0.05vmax;
-  margin-right: 0.05vmax;
-}
 }
 </style>

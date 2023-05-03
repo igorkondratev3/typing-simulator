@@ -24,7 +24,7 @@ const printSpeedDeclination = (printSpeed) => {
 
 <template>
   <div class="complete-page page-wrapper">
-    <TheHeader :hideHeaderLess550Height="false"/>
+    <TheHeader :hideHeaderLess550Height="false" />
     <main class="complete-page__main">
       <div class="complete-page__message-and-link">
         <div class="complete-page__message complete-message">
@@ -32,11 +32,11 @@ const printSpeedDeclination = (printSpeed) => {
           <p class="complete-message__value">
             Вы печатаете текст на английском языке со скоростью
             {{ printSpeed }} {{ printSpeedDeclination(Number(printSpeed)) }} в
-            минуту и с точность {{ accuracy }} %.
+            минуту и с точность {{ accuracy }}%.
           </p>
         </div>
-        <RouterLink class="complete-page__test-link" to="/test">
-          <button class="complete-page__button" tabindex="-1">
+        <RouterLink class="complete-page__test-link test-link" to="/test">
+          <button class="test-link__button" tabindex="-1">
             Пройти тест повторно
           </button>
         </RouterLink>
@@ -56,8 +56,43 @@ const printSpeedDeclination = (printSpeed) => {
 }
 
 .complete-page__message-and-link {
-  max-width: 600px;
-  margin-top: 32px;
+  max-width: calc(var(--base) * 6);
+  margin-top: calc(var(--base) * 0.32);
+}
+
+.complete-page__message {
+  padding: calc(var(--base) * 0.16);
+  border-radius: calc(var(--base) * 0.08);
+  background-color: rgba(88, 143, 245, 0.459);
+}
+
+.complete-message__value {
+  margin-top: calc(var(--base) * 0.24);
+  font-size: calc(var(--base) * 0.24);
+  text-align: justify;
+}
+
+.complete-page__test-link {
+  display: block;
+  margin-top: calc(var(--base) * 0.04);
+  border-radius: calc(var(--base) * 0.08);
+  text-decoration: none;
+}
+
+.complete-page__test-link:focus {
+  outline: calc(var(--base) * 0.01) solid black;
+  outline-offset: calc(var(--base) * 0.02);
+}
+
+.test-link__button {
+  width: 100%;
+  padding: calc(var(--base) * 0.16);
+  border: none;
+  border-radius: calc(var(--base) * 0.08);
+  cursor: pointer;
+  font-size: calc(var(--base) * 0.24);
+  color: black;
+  background-color: rgb(88, 143, 245);
 }
 
 @media (max-width: 600px) {
@@ -65,60 +100,4 @@ const printSpeedDeclination = (printSpeed) => {
     margin-top: 0;
   }
 }
-
-.complete-page__message {
-  padding: 16px;
-  border-radius: 8px;
-  background-color: rgba(88, 143, 245, 0.459);
-}
-
-.complete-message__value {
-  margin-top: 24px;
-  font-size: 24px;
-  text-align: justify;
-}
-
-.complete-page__test-link {
-  display: block;
-  margin-top: 4px;
-  text-decoration: none;
-}
-
-.complete-page__test-link:focus {
-  outline: 1px solid black;
-  outline-offset: 2px;
-}
-
-.complete-page__button {
-  width: 100%;
-  padding: 16px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 24px;
-  color: black;
-  background-color: rgb(88, 143, 245);
-}
-
-@media (min-width: 2200px) {
-  .complete-page__message, .complete-page__button, .complete-message__value {
-  padding: 0.7vmax;
-  border-radius: 0.4vmax;
-  font-size: 1.2vmax;
-}
-.complete-page__message-and-link {
-  max-width: 30vmax;
-  margin-top: 1.7vmax;
-}
-
-.complete-page__test-link {
-  margin-top: 0.2vmax;
-}
-}
-
-/*@media (min-height: 1200px) {
-  .header {
-    font-size: 1.5vmax;
-  }
-}*/
 </style>

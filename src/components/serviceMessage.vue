@@ -13,15 +13,15 @@ defineProps({
   position: absolute;
   bottom: 0;
   left: 0;
-  transform: translateY(calc(100% + 8px));
+  transform: translateY(calc(100% + calc(var(--base) * 0.08)));
   z-index: 2;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
-  padding: 16px;
-  border-radius: 8px;
-  font-size: 24px;
+  padding: calc(var(--base) * 0.16);
+  border-radius: calc(var(--base) * 0.08);
+  font-size: calc(var(--base) * 0.24);
   text-align: center;
   background-color: rgb(201, 80, 80);
 }
@@ -29,15 +29,4 @@ defineProps({
 .service-message_blue {
   background-color: rgb(88, 143, 245);
 }
-
-@media (min-width: 2200px) {
-  .service-message {
-  padding: 0.7vmax;
-  font-size: 1.2vmax;
-  border-radius: 0.4vmax;
-}
-
-}
-
-/*height*/
 </style>

@@ -29,15 +29,15 @@ defineEmits(['restartTest']);
 }
 
 .restart-button__icon {
-  width: 48px;
-  height: 48px;
-  margin-right: 8px;
+  width: calc(var(--base) * 0.48);
+  height: calc(var(--base) * 0.48);
+  margin-right: calc(var(--base) * 0.08);
 }
 
 @media (max-width: 501px) {
   .restart-button__icon {
-    width: 32px;
-    height: 32px;
+    width: calc(var(--base) * 0.32);
+    height: calc(var(--base) * 0.32);
   }
 }
 
@@ -46,13 +46,4 @@ defineEmits(['restartTest']);
     transform: translateX(0);
   }
 }
-
-@media (min-width: 2200px) {
-  .restart-button__icon {
-    width: 2.5vmax;
-    height: 2.5vmax;
-  }
-}
-
-/*height*/
 </style>

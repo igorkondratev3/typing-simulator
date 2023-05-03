@@ -18,6 +18,19 @@ html {
 
 body {
   min-height: 100vh;
+  --base: 100px;
+}
+
+@media (min-width: 2200px) {
+  body {
+    --base: 5.2vmax;
+  }
+}
+
+@media (min-height: 2200px) {
+  body {
+    --base: 5.2vmax;
+  }
 }
 
 .page-wrapper {
@@ -25,6 +38,6 @@ body {
   flex-direction: column;
   width: 100%;
   min-height: 100vh;
+  padding: calc(var(--base) * 0.08);
   background-color: rgb(232, 238, 233);
-  padding: 8px;
 }

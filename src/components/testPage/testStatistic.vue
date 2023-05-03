@@ -13,9 +13,9 @@ defineProps({
         src="/src/assets/svg/speed.svg"
         alt="speed"
       />
-      <div class="statistic-parameter__value">
+      <div class="statistic-parameter__parameter">
         <h4 class="statistic-parameter__header">Скорость:</h4>
-        <div class="statistic-parameter__result">
+        <div class="statistic-parameter__value">
           <p class="statistic-parameter__speed">{{ printSpeed }}</p>
           <p class="statistic-parameter__units">зн/мин</p>
         </div>
@@ -27,9 +27,9 @@ defineProps({
         src="/src/assets/svg/task.svg"
         alt="accuracy"
       />
-      <div class="statistic-parameter__value">
+      <div class="statistic-parameter__parameter">
         <h4 class="statistic-parameter__header">Точность:</h4>
-        <div class="statistic-parameter__result">
+        <div class="statistic-parameter__value">
           <p class="statistic-parameter__accuracy">
             {{ accuracy }}
           </p>
@@ -44,7 +44,7 @@ defineProps({
 .statistic {
   display: flex;
   justify-content: space-around;
-  font-size: 24px;
+  font-size: calc(var(--base) * 0.24);
 }
 
 .statistic-parameter {
@@ -53,97 +53,60 @@ defineProps({
 }
 
 .statistic-parameter__icon {
-  width: 48px;
-  height: 48px;
-  margin-right: 8px;
+  width: calc(var(--base) * 0.48);
+  height: calc(var(--base) * 0.48);
+  margin-right: calc(var(--base) * 0.08);
 }
 
-.statistic-parameter__value {
+.statistic-parameter__parameter {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .statistic-parameter__header {
-  font-size: 24px;
+  font-size: calc(var(--base) * 0.24);
   text-align: center;
 }
 
-.statistic-parameter__result {
+.statistic-parameter__value {
   display: flex;
 }
 
 .statistic-parameter__speed {
-  width: 50px;
-  margin-right: 2px;
-  font-size: 28px;
+  width: calc(var(--base) * 0.5);
+  margin-right: calc(var(--base) * 0.02);
+  font-size: calc(var(--base) * 0.28);
   text-align: center;
 }
 
 .statistic-parameter__accuracy {
-  width: 90px;
-  margin-right: 2px;
-  font-size: 28px;
+  width: calc(var(--base) * 0.9);
+  margin-right: calc(var(--base) * 0.02);
+  font-size: calc(var(--base) * 0.28);
   text-align: center;
 }
 
 .statistic-parameter__units {
   display: flex;
   align-items: center;
-  font-size: 20px;
+  font-size: calc(var(--base) * 0.2);
 }
 
 @media (max-width: 501px) {
   .statistic-parameter__icon {
-  width: 24px;
-  height: 24px;
-}
-
-.statistic-parameter__speed {
-  font-size: 24px;
-  width: 45px;
-}
-
-.statistic-parameter__accuracy {
-  font-size: 24px;
-  width: 80px;
-}
-}
-
-@media (min-width: 2200px) {
-  .statistic-parameter__icon {
-    width: 2.3vmax;
-    height: 2.3vmax;
-}
-
-.statistic-parameter__speed {
-  font-size: 1.4vmax;
-  width: 3vmax;
-}
-
-.statistic-parameter__accuracy {
-  font-size: 1.4vmax;
-  width: 5vmax;
-  
-}
-
-.statistic {
-  font-size: 1.5vmax;
-}
-
-.statistic-parameter__header {
-  font-size: 1.2vmax;
-}
-
-.statistic-parameter__units {
-  font-size: 1.3vmax;
-}
-
-}
-
-/*@media (min-height: 1200px) {
-  .header {
-    font-size: 1.5vmax;
+    width: calc(var(--base) * 0.24);
+    height: calc(var(--base) * 0.24);
   }
-}*/
+
+  .statistic-parameter__speed {
+    font-size: calc(var(--base) * 0.24);
+    width: calc(var(--base) * 0.45);
+  }
+
+  .statistic-parameter__accuracy {
+    font-size: calc(var(--base) * 0.24);
+    width: calc(var(--base) * 0.8);
+  }
+}
 </style>

@@ -180,72 +180,29 @@ const restartTest = () => {
   flex-direction: column;
   align-items: center;
   flex-grow: 1;
-  margin-top: 32px;
+  margin-top: calc(var(--base) * 0.32);
 }
 
 .typing-test__text-content {
-  width: 600px;
-  min-height: 200px;
-  padding: 16px;
-  border: 1px solid black;
-  border-radius: 16px;
+  width: calc(var(--base) * 6);
+  min-height: calc(var(--base) * 2);
+  padding: calc(var(--base) * 0.16);
+  border: calc(var(--base) * 0.01) solid black;
+  border-radius: calc(var(--base) * 0.16);
   user-select: none;
-  font-size: 24px;
+  font-size: calc(var(--base) * 0.24);
   text-align: justify;
   background-color: rgb(253, 240, 222);
 }
 
-@media (max-width: 700px) {
-  .typing-test__text-content {
-    width: 400px;
-  }
-  .typing-test {
-    margin-top: 0;
-  }
-}
-
-@media (max-width: 501px) {
-  .typing-test__text-content {
-    width: 320px;
-  }
-}
-
-@media (max-width: 415px) {
-  .typing-test__text-content {
-    padding-bottom: 32px;
-  }
-}
-
-@media (min-width: 2200px) {
-  .typing-test__text-content {
-  width: 30vmax;
-  min-height: 10vmax;
-  padding: 0.7vmax;
-  font-size: 1.2vmax;
-  border-radius: 0.4vmax;
-  user-select: none;
-}
-
-.typing-test {
-  margin-top: 2vmax;
-}
-
-}
-
-/*@media (min-height: 1200px) {
-  .header {
-    font-size: 1.5vmax;
-  }
-}*/
-
 .text-content__letter {
-  border-radius: 2px;
-  letter-spacing: 0.5px;
+  border-radius: calc(var(--base) * 0.02);
+  letter-spacing: calc(var(--base) * 0.005);
 }
 
 .text-content__letter_current {
-  padding-left: 2px;
-  padding-right: 2px;
+  padding-left: calc(var(--base) * 0.02);
+  padding-right: calc(var(--base) * 0.02);
   font-weight: 700;
   background-color: rgb(178, 178, 180);
 }
@@ -256,5 +213,26 @@ const restartTest = () => {
 
 .text-content__letter_completed {
   color: rgb(77, 77, 231);
+}
+
+@media (max-width: 700px) {
+  .typing-test__text-content {
+    width: calc(var(--base) * 4);
+  }
+  .typing-test {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 501px) {
+  .typing-test__text-content {
+    width: calc(var(--base) * 3.2);
+  }
+}
+
+@media (max-width: 415px) {
+  .typing-test__text-content {
+    padding-bottom: calc(var(--base) * 0.32);
+  }
 }
 </style>

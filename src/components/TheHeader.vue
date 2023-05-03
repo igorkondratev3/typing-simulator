@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 const props = defineProps({
   hideHeaderLess550Height: Boolean
-});
+}); //поменять название
 const hideHeader = computed(() =>
   props.hideHeaderLess550Height ? 'none' : 'flex'
 );
@@ -19,39 +19,27 @@ const hideHeader = computed(() =>
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 24px;
-  font-size: 32px;
+  padding: calc(var(--base) * 0.24);
+  font-size: calc(var(--base) * 0.32);
   text-align: center;
   user-select: none;
 }
 
 @media (max-width: 820px) {
   .header {
-    font-size: 24px;
+    font-size: calc(var(--base) * 0.24);
   }
 }
 
 @media (max-width: 600px) {
   .header {
-    font-size: 18px;
+    font-size: calc(var(--base) * 0.18);
   }
 }
 
-@media (max-height: 550px) {
+@media (max-height: 600px) {
   .header {
     display: v-bind(hideHeader);
-  }
-}
-
-@media (min-width: 2200px) {
-  .header {
-    font-size: 1.5vmax;
-  }
-}
-
-@media (min-height: 1200px) {
-  .header {
-    font-size: 1.5vmax;
   }
 }
 </style>

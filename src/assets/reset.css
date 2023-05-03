@@ -3,10 +3,10 @@
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
+  position: relative;
   margin: 0;
   padding: 0;
-  position: relative;
-  font-weight: normal;
+  box-sizing: border-box;
   font-family: 'Old Standard TT CY', 'Old Standard TT LA';
+  font-weight: normal;
 }

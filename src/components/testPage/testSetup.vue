@@ -46,7 +46,7 @@ const goToTest = async () => {
             v-for="n in 5"
             :key="n + 'sentences'"
           >
-            <p class="sentence__value">{{ n }}</p>
+            <h5 class="sentence__value">{{ n }}</h5>
             <input
               class="sentence__radio"
               type="radio"
@@ -95,11 +95,10 @@ const goToTest = async () => {
   align-items: center;
   height: 100vh;
   width: 100vw;
-  padding-left: 8px;
-  padding-right: 8px;
-  overflow: auto;
+  padding-left: calc(var(--base) * 0.08);
+  padding-right: calc(var(--base) * 0.08);
   background-color: rgba(77, 76, 76, 0.616);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(calc(var(--base) * 0.1));
   overflow: auto;
   scrollbar-width: none;
 }
@@ -116,36 +115,29 @@ const goToTest = async () => {
   display: none;
 }
 
-@media (max-height: 600px) {
-  .dialog__wrapper {
-    justify-content: flex-start;
-    padding-top: 8px;
-  }
-}
-
 .dialog__test-setup {
-  margin-bottom: 100px;
+  margin-bottom: var(--base);
 }
 
 .test-setup {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 16px;
-  border-radius: 8px;
+  padding: calc(var(--base) * 0.16);
+  border-radius: calc(var(--base) * 0.08);
   background-color: rgb(186, 187, 190);
 }
 
 .test-setup__header {
-  margin-bottom: 48px;
-  font-size: 32px;
+  margin-bottom: calc(var(--base) * 0.48);
+  font-size: calc(var(--base) * 0.32);
   font-weight: 700;
   letter-spacing: 0.05em;
   text-align: center;
 }
 
 .test-setup__parameter {
-  margin-bottom: 32px;
+  margin-bottom: calc(var(--base) * 0.32);
 }
 
 .setup-parameter {
@@ -155,14 +147,14 @@ const goToTest = async () => {
 }
 
 .setup-parameter__header {
-  font-size: 24px;
+  font-size: calc(var(--base) * 0.24);
   font-weight: 700;
   letter-spacing: 0.05em;
   text-align: center;
 }
 
 .setup-parameter__parameter {
-  margin-top: 8px;
+  margin-top: calc(var(--base) * 0.08);
 }
 
 .sentences {
@@ -172,8 +164,8 @@ const goToTest = async () => {
 }
 
 .sentences__sentence {
-  margin-right: 8px;
-  margin-left: 8px;
+  margin-right: calc(var(--base) * 0.08);
+  margin-left: calc(var(--base) * 0.08);
 }
 
 .sentence {
@@ -183,15 +175,15 @@ const goToTest = async () => {
 }
 
 .sentence__value {
-  font-size: 24px;
+  font-size: calc(var(--base) * 0.24);
 }
 
 .sentence__radio {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  width: 20px;
-  height: 20px;
+  width: calc(var(--base) * 0.2);
+  height: calc(var(--base) * 0.2);
   outline: none;
   border: none;
   border-radius: 50%;
@@ -202,12 +194,12 @@ const goToTest = async () => {
 .sentence__radio:focus::after {
   position: absolute;
   content: '';
-  bottom: -20px;
-  left: 4px;
-  width: 12px;
-  height: 12px;
+  bottom: calc(var(--base) * -0.2);
+  left: calc(var(--base) * 0.04);
+  width: calc(var(--base) * 0.12);
+  height: calc(var(--base) * 0.12);
   border: solid black;
-  border-width: 0 2px 2px 0;
+  border-width: 0 calc(var(--base) * 0.02) calc(var(--base) * 0.02) 0;
   transform: rotate(-135deg);
 }
 
@@ -219,39 +211,41 @@ const goToTest = async () => {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  width: 20px;
-  height: 20px;
+  width: calc(var(--base) * 0.2);
+  height: calc(var(--base) * 0.2);
   outline: none;
-  border: 1px solid white;
-  border-radius: 4px;
+  border: calc(var(--base) * 0.01) solid white;
+  border-radius: calc(var(--base) * 0.04);
   background: rgb(232, 238, 233);
   transition: background 0.3s linear, border 0.3s linear;
 }
 
 .keyboard-visibility:checked {
   background: rgb(66, 63, 63) url('/src/assets/svg/check.svg');
-  border: 1px solid rgb(66, 63, 63);
+  background-size: calc(var(--base) * 0.24);
+  border: calc(var(--base) * 0.01) solid rgb(66, 63, 63);
 }
 
 .keyboard-visibility:focus::before {
   position: absolute;
   content: '';
-  top: 3px;
-  left: -20px;
-  width: 12px;
-  height: 12px;
+  top: calc(var(--base) * 0.03);
+  left: calc(var(--base) * -0.2);
+  width: calc(var(--base) * 0.12);
+  height: calc(var(--base) * 0.12);
   border: solid black;
-  border-width: 0 2px 2px 0;
+  border-width: 0 calc(var(--base) * 0.02) calc(var(--base) * 0.02) 0;
   transform: rotate(-45deg);
 }
 
 .test-setup__start {
   width: 100%;
-  padding: 16px;
+  padding: calc(var(--base) * 0.16);
   border: none;
-  border-radius: 8px;
+  border-radius: calc(var(--base) * 0.08);
   cursor: pointer;
-  font-size: 24px;
+  font-size: calc(var(--base) * 0.24);
+  color: black;
   background-color: rgb(88, 143, 245);
 }
 
@@ -260,89 +254,14 @@ const goToTest = async () => {
 }
 
 .test-setup__start:focus {
-  outline: 1px solid black;
-  outline-offset: 2px;
+  outline: calc(var(--base) * 0.01) solid black;
+  outline-offset: calc(var(--base) * 0.02);
 }
 
-@media (min-width: 2200px) {
-  .test-setup__start {
-    font-size: 1vmax;
-}
-
-.test-setup {
-  padding: 0.5vmax;
-  border-radius: 0.3vmax;
-}
-
-.test-setup__start {
-  width: 100%;
-  padding: 0.5vmax;
-  border-radius: 0.3vmax;
-}
-
-.setup-parameter__parameter {
-  margin-top: 0.3vmax;
-}
-
-.test-setup__header {
-  margin-bottom: 2vmax;
-}
-
-.test-setup__parameter {
-  margin-bottom: 1.6vmax;
-}
-
-.test-setup__header {
-  font-size: 1.5vmax;
-}
-
-.setup-parameter__header {
-  font-size: 1vmax;
-}
-
-.sentence__value {
-  font-size: 1vmax;  
-}
-
-.sentence__radio {
-  width: 1vmax;
-  height: 1vmax;
-}
-
-.sentences__sentence {
-  margin-right: 0.5vmax;
-  margin-left: 0.5vmax;
-}
-
-.keyboard-visibility {
-  width: 1vmax;
-  height: 1vmax;
-}
-
-.keyboard-visibility:focus::before {
-  width: 0.5vmax;
-  height: 0.5vmax;
-  top: 0.2vmax;
-  left: -0.8vmax;
-}
-
-.keyboard-visibility:checked {
-  background: rgb(66, 63, 63), url('/src/assets/svg/check.svg');
-  background-size: 1.1vmax;
-}
-
-.sentence__radio:focus::after {
-  bottom: -0.8vmax;
-  left: 0.25vmax;
-  width: 0.5vmax;
-  height: 0.5vmax;
-}
-
-}
-
-/*@media (min-height: 1200px) {вставить для высоты
-  .header {
-    font-size: 1.5vmax;
+@media (max-height: 600px) {
+  .dialog__wrapper {
+    justify-content: flex-start;
+    padding-top: calc(var(--base) * 0.08);
   }
-}*/
+}
 </style>
