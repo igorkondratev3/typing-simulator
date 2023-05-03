@@ -4,7 +4,12 @@ const StartPage = () => import('@/pages/StartPage.vue');
 const CompletePage = () => import('@/pages/CompletePage.vue');
 
 const checkComplete = (to, from) => {
-  if (from.path !== '/test') return '/';
+  if (
+    from.path !== '/test' ||
+    !Object.hasOwn(to.query, 'accuracy') ||
+    !Object.hasOwn(to.query, 'printSpeed')
+  )
+    return '/';
 };
 
 const router = createRouter({
