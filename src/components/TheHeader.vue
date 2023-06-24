@@ -1,9 +1,10 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue';
-const props = defineProps({
-  hideHeaderHeightLess600: Boolean,
-  toHomePageVisibility: Boolean
-});
+
+const props = defineProps<{
+  hideHeaderHeightLess600: boolean;
+  toHomePageVisibility: boolean;
+}>();
 
 const hideHeader = computed(() =>
   props.hideHeaderHeightLess600 ? 'none' : 'flex'

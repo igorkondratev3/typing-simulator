@@ -1,8 +1,8 @@
-<script setup>
-defineProps({
-  accuracy: String,
-  printSpeed: String
-});
+<script setup lang="ts">
+defineProps<{
+  accuracy: string;
+  printSpeed: string;
+}>();
 </script>
 
 <template>

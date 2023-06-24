@@ -3,7 +3,12 @@ const TestPage = () => import('@/pages/TestPage.vue');
 const StartPage = () => import('@/pages/StartPage.vue');
 const CompletePage = () => import('@/pages/CompletePage.vue');
 
-const checkComplete = (to, from) => {
+interface Route {
+  path: string;
+  query: object;
+}
+
+const checkComplete = (to: Route, from: Route) => {
   if (
     from.path !== '/test' ||
     !Object.hasOwn(to.query, 'accuracy') ||

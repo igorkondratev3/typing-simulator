@@ -1,19 +1,19 @@
-<script setup>
+<script setup lang="ts">
 import { RouterLink } from 'vue-router';
 import TestStatistic from '@/components/testPage/testStatistic.vue';
 import TheKeyboard from '@/components/keyboard/theKeyboard.vue';
 import TheHeader from '@/components/TheHeader.vue';
 
-defineProps({
-  accuracy: String,
-  printSpeed: String
-});
+defineProps<{
+  accuracy: string;
+  printSpeed: string;
+}>();
 
 const stateObj = JSON.parse(JSON.stringify(history.state));
 stateObj.current = '/typing-simulator/complete';
 history.replaceState(stateObj, '', '/typing-simulator/complete');
 
-const printSpeedDeclination = (printSpeed) => {
+const printSpeedDeclination = (printSpeed: number) => {
   if (printSpeed % 100 >= 11 && printSpeed % 100 <= 19) return 'знаков';
   if (printSpeed % 10 === 0) return 'знаков';
   if (printSpeed % 10 === 1) return 'знак';

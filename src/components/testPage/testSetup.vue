@@ -1,11 +1,20 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
-import { getText } from '@/helpers/testPage.js';
+import { getText, type TextObj } from '@/helpers/testPage.js';
 import ServiceMessage from '@/components/serviceMessage.vue';
 
-const emit = defineEmits(['goToTest']);
+const emit = defineEmits<{
+  goToTest: [textObj: string, keyboardVisibility: boolean];
+}>();
 
-const testSetupLS = JSON.parse(localStorage.getItem('testSetup'));
+interface TestSetup {
+  sentences: number;
+  keyboardVisibility: boolean;
+}
+
+const testSetupLS: undefined | TestSetup = JSON.parse(
+  localStorage.getItem('testSetup') || 'undefined'
+);
 const sentences = ref(testSetupLS?.sentences || 3);
 const keyboardVisibility = ref(testSetupLS?.keyboardVisibility ?? true);
 const isGettingText = ref(false);
@@ -14,14 +23,14 @@ const serviceMessage = ref('');
 const goToTest = async () => {
   isGettingText.value = true;
   serviceMessage.value = 'Загружаем текст';
-  const textObj = await getText(sentences.value);
+  const textObj: TextObj = await getText(sentences.value);
   if (textObj.error) {
     serviceMessage.value = textObj.error;
     isGettingText.value = false;
     return;
   }
 
-  const testSetup = {
+  const testSetup: TestSetup = {
     sentences: sentences.value,
     keyboardVisibility: keyboardVisibility.value
   };

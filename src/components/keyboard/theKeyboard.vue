@@ -1,15 +1,19 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue';
-import { defineLook } from './defineLook.js';
+import { defineLook } from './defineLook';
 
-const props = defineProps({
-  language: String,
-  pressedKey: String,
-  necessaryKey: String,
-  isCapsEnabled: Boolean
-});
+const props = defineProps<{
+  language: string;
+  pressedKey?: string;
+  necessaryKey?: string;
+  isCapsEnabled?: boolean;
+}>();
 
-const letters = {
+interface Letters {
+  [index: string]: ReadonlyArray<ReadonlyArray<string>>;
+}
+
+const letters: Letters = {
   english: [
     ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'BS'],
     ['TAB', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '[', ']', '\\'],
@@ -36,7 +40,7 @@ const formattedNecessaryKey = computed(() => props.necessaryKey?.toUpperCase());
 </script>
 
 <template>
-  <div class="keyboard">
+  <div class="keyboard" :lang="props.language === 'english' ? 'en' : 'ru'">
     <div
       class="keyboard__row"
       v-for="(row, rowIndex) of keys"

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { RouterLink } from 'vue-router';
 import TheKeyboard from '@/components/keyboard/theKeyboard.vue';
 import TheHeader from '@/components/TheHeader.vue';

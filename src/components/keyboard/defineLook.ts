@@ -1,4 +1,4 @@
-const colors = [
+const colors: ReadonlyArray<ReadonlyArray<string>> = [
   ['`', 'v', 'v', 'g', 't', 'y', 'y', 'o', 't', 'g', 'v', 'v', 'v', 'BS'],
   ['TAB', 'v', 'g', 't', 'y', 'y', 'o', 'o', 't', 'g', 'v', 'v', 'v', '\\'],
   ['CAPS', 'v', 'g', 't', 'y', 'y', 'o', 'o', 't', 'g', 'v', 'v', 'ENTER'],
@@ -6,8 +6,16 @@ const colors = [
   [' ']
 ];
 
-export const defineLook = (rowIndex, keyIndex, key) => {
-  const look = {};
+interface Look {
+  [index: string]: boolean;
+}
+
+export const defineLook = (
+  rowIndex: number,
+  keyIndex: number,
+  key: string
+): Look => {
+  const look: Look = {};
 
   switch (key) {
     case '`':

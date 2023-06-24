@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted, defineAsyncComponent } from 'vue';
 import { useRouter } from 'vue-router';
 import {
@@ -6,35 +6,35 @@ import {
   showServiceMessage,
   preventScrolling
 } from '@/helpers/testPage.js';
-import { useTestStatistic } from '@/composables/testStatistic.js';
+import { useTestStatistic } from '@/composables/testStatistic';
 import TestSetup from '@/components/testPage/testSetup.vue';
 import TestStatistic from '@/components/testPage/testStatistic.vue';
 import RestartButton from '@/components/testPage/restartButton.vue';
 import TheHeader from '@/components/TheHeader.vue';
-const TheKeyboard = defineAsyncComponent(() =>
-  import('@/components/keyboard/theKeyboard.vue')
+const TheKeyboard = defineAsyncComponent(
+  () => import('@/components/keyboard/theKeyboard.vue')
 );
-const ServiceMessage = defineAsyncComponent(() =>
-  import('@/components/serviceMessage.vue')
+const ServiceMessage = defineAsyncComponent(
+  () => import('@/components/serviceMessage.vue')
 );
 
-const setupModal = ref(null);
+const setupModal = ref<HTMLDialogElement | null>(null);
 onMounted(() => {
-  setupModal.value.showModal();
+  setupModal.value?.showModal(); //отработать null
 });
 
-const testPage = ref(null);
-const letters = ref([]);
-const keyboardVisibilityLS = JSON.parse(
-  localStorage.getItem('testSetup')
+const testPage = ref<HTMLDivElement | null>(null);
+const letters = ref<string[]>([]);
+const keyboardVisibilityLS: undefined | boolean = JSON.parse(
+  localStorage.getItem('testSetup') || 'undefined'
 )?.keyboardVisibility;
 const keyboardVisibility = ref(keyboardVisibilityLS ?? true);
-const goToTest = (text, isKeyboardSeen) => {
+const goToTest = (text: string, isKeyboardSeen: boolean): void => {
   keyboardVisibility.value = isKeyboardSeen;
   letters.value = [...text[0].replaceAll('  ', ' ')]; //текст возвращается с двумя пробелами перед началом следующего предложения
   calcAccuracyStep(letters.value.length);
-  setupModal.value.close();
-  testPage.value.focus();
+  setupModal.value?.close(); //отработать null
+  testPage.value?.focus(); //отработать null
 };
 
 const router = useRouter();
@@ -54,22 +54,22 @@ const {
 } = useTestStatistic();
 
 const pressedKey = ref('');
-const setPressedKey = (key) => {
+const setPressedKey = (key: string): void => {
   pressedKey.value = key;
   setTimeout(() => (pressedKey.value = ''), 50);
 };
 
 const isCapsEnabled = ref(false);
-const changeCaps = (event) => {
+const changeCaps = (event: KeyboardEvent) => {
   isCapsEnabled.value = !event.getModifierState('CapsLock');
   setPressedKey('CAPS');
 };
 
 let isTestStarted = false;
 
-const checkPressedKey = (event) => {
+const checkPressedKey = (event: KeyboardEvent): void => {
   preventScrolling(event);
-  if (!checkLanguage(event.key, isLanguageError)) {
+  if (!checkLanguage(event.key)) {
     showServiceMessage(isLanguageError);
     return;
   }
@@ -109,12 +109,12 @@ const checkPressedKey = (event) => {
   }
 };
 
-const restartTest = () => {
+const restartTest = (): void => {
   resetStatistic();
   isTestStarted = false;
   isLetterError.value = false;
   pressedKey.value = '';
-  setupModal.value.showModal();
+  setupModal.value?.showModal();
 };
 </script>
 
@@ -142,7 +142,7 @@ const restartTest = () => {
           :accuracy="accuracy.toFixed(2)"
           :printSpeed="String(printSpeed)"
         />
-        <div class="typing-test__text-content text-content">
+        <div class="typing-test__text-content text-content" lang="us">
           <span
             class="text-content__letter"
             v-for="(letter, index) of letters"

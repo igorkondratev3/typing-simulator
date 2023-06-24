@@ -1,5 +1,7 @@
-<script setup>
-defineEmits(['restartTest']);
+<script setup lang="ts">
+defineEmits<{
+  restartTest: [undefined];
+}>();
 </script>
 
 <template>
