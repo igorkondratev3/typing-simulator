@@ -12,8 +12,8 @@ interface TestSetup {
   keyboardVisibility: boolean;
 }
 
-const testSetupLS: undefined | TestSetup = JSON.parse(
-  localStorage.getItem('testSetup') || 'undefined'
+const testSetupLS: null | TestSetup = JSON.parse(
+  localStorage.getItem('testSetup') || 'null'
 );
 const sentences = ref(testSetupLS?.sentences || 3);
 const keyboardVisibility = ref(testSetupLS?.keyboardVisibility ?? true);

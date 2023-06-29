@@ -26,7 +26,7 @@ onMounted(() => {
 const testPage = ref<HTMLDivElement | null>(null);
 const letters = ref<string[]>([]);
 const keyboardVisibilityLS: undefined | boolean = JSON.parse(
-  localStorage.getItem('testSetup') || 'undefined'
+  localStorage.getItem('testSetup') || 'null'
 )?.keyboardVisibility;
 const keyboardVisibility = ref(keyboardVisibilityLS ?? true);
 const goToTest = (text: string, isKeyboardSeen: boolean): void => {
